@@ -595,16 +595,24 @@
             min="1"
             value="1">
 
-        <textarea
-            id="message"
-            rows="4"
-            placeholder="Additional requirements"></textarea>
+<textarea
+    id="message"
+    rows="4"
+    placeholder="Additional requirements"></textarea>
 
-        <button
-            class="submit-btn"
-            onclick="sendOrder()">
-            📱 Send Order on WhatsApp
-        </button>
+<label for="customerPhoto">📷 Upload Photo</label>
+
+<input
+    type="file"
+    id="customerPhoto"
+    accept="image/*"
+    required>
+
+<button
+    class="submit-btn"
+    onclick="sendOrder()">
+    📱 Send Order on WhatsApp
+</button>
 
     </div>
 
