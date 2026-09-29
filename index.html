@@ -128,12 +128,36 @@
             font-size: 30px;
         }
 
-        /* PRODUCTS */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+
+
+/* YEARS COUNTER */
+.stats-section {
+    display: flex;
+    justify-content: center;
+    padding: 30px 6%;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 25px;
+}
+
+.stat-number {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.stat-box div:last-child {
+    font-size: 18px;
+}
+
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
 
         .product {
             background: white;
@@ -313,7 +337,13 @@
 
 </section>
 
-
+<!-- YEARS COUNTER -->
+<section class="stats-section">
+  <div class="stat-box">
+    <div class="stat-number" id="yearsCount">0+</div>
+    <div>Years Experience</div>
+  </div>
+</section>
 <!-- PRODUCTS -->
 <section id="products">
 
@@ -715,6 +745,29 @@ function sendOrder() {
 
     window.open(url, "_blank");
 }
+    const startDate = new Date("2025-03-12");
+
+function updateYears() {
+    const today = new Date();
+
+    let years =
+        today.getFullYear() - startDate.getFullYear();
+
+    if (
+        today.getMonth() < startDate.getMonth() ||
+        (
+            today.getMonth() === startDate.getMonth() &&
+            today.getDate() < startDate.getDate()
+        )
+    ) {
+        years--;
+    }
+
+    document.getElementById("yearsCount").textContent =
+        years + "+";
+}
+
+updateYears();
 
 </script>
 
