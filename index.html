@@ -700,6 +700,8 @@
 
 <!-- WHATSAPP ORDER SCRIPT -->
 <script>
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwmKhPult0FVZju1pBVN0idIz_ho6fyxbuhk8b1fPYo9pQFMgeur7i31WVPz-tP3Wk/exec";
 
 function sendOrder() {
 
@@ -725,7 +727,25 @@ function sendOrder() {
 
         return;
     }
+      const orderData = {
+    customerName: name,
+    mobile: phone,
+    address: address,
+    product: product,
+    quantity: quantity,
+    message: message
+  };
 
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: JSON.stringify(orderData)
+  });
+
+  
     const whatsappNumber = "916383636141";
 
     const text =
