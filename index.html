@@ -648,9 +648,33 @@
   onclick="sendOrder()">
   🛒 Place Order
 </button>
+<div style="text-align:center; margin-top:15px;">
 
+  <p>
+    <strong>💳 UPI Payment</strong>
+  </p>
 
-    </div>
+  <p>
+    Total Amount:
+    <strong>₹<span id="upiAmount">0</span></strong>
+  </p>
+
+  <a
+    id="upiButton"
+    href="#"
+    onclick="return payUPI();"
+    class="submit-btn"
+    style="display:inline-block; text-decoration:none;">
+    💳 Pay ₹0 via UPI
+  </a>
+
+  <p style="font-size:13px;">
+    UPI ID: manipressmedia-2@okaxis
+  </p>
+
+</div>
+
+    
 
 </section>
 
@@ -789,7 +813,66 @@ function updateYears() {
 }
 
 updateYears();
+// UPI PAYMENT
+function updateUPIAmount() {
 
+  const product =
+    document.getElementById("product").value;
+
+  const quantity =
+    parseInt(document.getElementById("quantity").value) || 1;
+
+  const priceMatch =
+    product.match(/₹\s*([\d,]+)/);
+
+  let price = 0;
+
+  if (priceMatch) {
+    price = parseInt(priceMatch[1].replace(/,/g, ""));
+  }
+
+  const total = price * quantity;
+
+  document.getElementById("upiAmount").textContent = total;
+
+  document.getElementById("upiButton").textContent =
+    "💳 Pay ₹" + total + " via UPI";
+}
+
+
+function payUPI() {
+
+  const amount =
+    document.getElementById("upiAmount").textContent;
+
+  if (amount === "0") {
+    alert("Please select a frame size first.");
+    return;
+  }
+
+  const upiURL =
+    "upi://pay" +
+    "?pa=manipressmedia-2@okaxis" +
+    "&pn=Shivamani%20Frames" +
+    "&am=" + amount +
+    "&cu=INR";
+
+  window.location.href = upiURL;
+}
+
+
+// Product change
+document.getElementById("product")
+  .addEventListener("change", updateUPIAmount);
+
+
+// Quantity change
+document.getElementById("quantity")
+  .addEventListener("input", updateUPIAmount);
+
+
+// Initial amount
+updateUPIAmount();
 </script>
 
 </body>
