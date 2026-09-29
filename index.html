@@ -665,6 +665,8 @@ function sendOrder() {
 
     const phone =
         document.getElementById("customerPhone").value;
+    const address =
+    document.getElementById("customerAddress").value;
 
     const product =
         document.getElementById("product").value;
@@ -675,8 +677,7 @@ function sendOrder() {
     const message =
         document.getElementById("message").value;
 
-    if (name === "" || phone === "" || product === "") {
-
+    if (name === "" || phone === "" || address === "" || product === "") {
         alert("Please fill Name, Mobile Number and Product.");
 
         return;
@@ -688,6 +689,7 @@ function sendOrder() {
         "🛒 *NEW ORDER - SHIVAMANI FRAMES*%0A%0A" +
         "👤 Name: " + name + "%0A" +
         "📱 Phone: " + phone + "%0A" +
+        "📍 Address: " + address + "%0A" +
         "🖼️ Product: " + product + "%0A" +
         "🔢 Quantity: " + quantity + "%0A" +
         "📝 Message: " + message;
