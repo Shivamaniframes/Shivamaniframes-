@@ -668,7 +668,18 @@
   <p style="font-size:13px;">
     Scan QR using any UPI App
   </p>
+<input
+  type="text"
+  id="utrNumber"
+  placeholder="Enter UPI Transaction ID / UTR"
+  style="width:100%; padding:10px; margin:10px 0;">
 
+<button
+  type="button"
+  onclick="submitPaymentProof()"
+  class="submit-btn">
+  ✅ I Have Paid
+</button>
 </div>
   <a
     id="upiButton"
@@ -902,6 +913,57 @@ document.getElementById("quantity")
 
 // Initial amount
 updateUPIAmount();
+ function submitPaymentProof() {
+
+  const utr =
+    document.getElementById("utrNumber").value.trim();
+
+  if (utr === "") {
+    alert("Please enter UPI Transaction ID / UTR.");
+    return;
+  }
+
+  const name =
+    document.getElementById("customerName").value;
+
+  const phone =
+    document.getElementById("customerPhone").value;
+
+  const product =
+    document.getElementById("product").value;
+
+  const quantity =
+    document.getElementById("quantity").value;
+
+  if (name === "" || phone === "" || product === "") {
+    alert("Please fill customer details and select product.");
+    return;
+  }
+
+  const paymentData = {
+    customerName: name,
+    mobile: phone,
+    product: product,
+    quantity: quantity,
+    utr: utr,
+    paymentStatus: "Pending Verification"
+  };
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: JSON.stringify(paymentData)
+  });
+
+  alert(
+    "✅ Payment details submitted!\n\n" +
+    "Payment Status: Pending Verification\n" +
+    "UTR: " + utr
+  );
+}   
 </script>
 
 </body>
