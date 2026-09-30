@@ -276,6 +276,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -658,7 +659,17 @@
     Total Amount:
     <strong>₹<span id="upiAmount">0</span></strong>
   </p>
+<div style="text-align:center; margin:15px 0;">
 
+  <p><strong>📱 Scan & Pay</strong></p>
+
+  <div id="upiQR"></div>
+
+  <p style="font-size:13px;">
+    Scan QR using any UPI App
+  </p>
+
+</div>
   <a
     id="upiButton"
     href="#"
@@ -837,6 +848,24 @@ function updateUPIAmount() {
 
   document.getElementById("upiButton").textContent =
     "💳 Pay ₹" + total + " via UPI";
+    const upiQR = document.getElementById("upiQR");
+
+upiQR.innerHTML = "";
+
+if (total > 0) {
+
+  const upiURL =
+    "upi://pay?pa=manipressmedia-2@okaxis" +
+    "&pn=Shivamani%20Frames" +
+    "&am=" + total +
+    "&cu=INR";
+
+  new QRCode(upiQR, {
+    text: upiURL,
+    width: 180,
+    height: 180
+  });
+}
 }
 
 
