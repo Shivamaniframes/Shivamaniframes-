@@ -833,14 +833,18 @@ const GOOGLE_SCRIPT_URL =
         photo: photoBase64
     };
 
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(orderData)
-    });
+   const response = await fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(orderData)
+});
+
+const result = await response.json();
+
+constphotoUrl = result.photoUrl || "";
 
     alert("✅ Your order has been submitted successfully!");
 }
@@ -888,13 +892,14 @@ const text =
         "📍 Address: " + address + "%0A" +
         "🖼️ Product: " + product + "%0A" +
         "🔢 Quantity: " + quantity + "%0A" +
-        "📝 Message: " + message;
+        "📝 Message: " + message + "%0A%0A" +
+"📸 Customer Photo: " + (customerPhotoUrl || "Photo link not available");
 
     const url =
         "https://wa.me/" +
         whatsappNumber +
-        "?text=" +
-        text;
+       "?text=" +
+encodeURIComponent(text);
 
     window.open(url, "_blank");
 }
