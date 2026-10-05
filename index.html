@@ -846,6 +846,7 @@ function sendOrder() {
     product: product,
     quantity: quantity,
     message: message
+    photoName: document.getElementById("customerPhoto").files[0]?.name || ""
   };
 
   
