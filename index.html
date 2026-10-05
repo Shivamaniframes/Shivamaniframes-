@@ -771,49 +771,77 @@ wedding albums and online frame orders in Jammanahalli and Harur, Tamil Nadu.
 <script>
 const GOOGLE_SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbwmKhPult0FVZju1pBVN0idIz_ho6fyxbuhk8b1fPYo9pQFMgeur7i31WVPz-tP3Wk/exec";
-function sendWebsiteOrder() {
-  const name =
-    document.getElementById("customerName").value.trim();
 
-  const phone =
-    document.getElementById("customerPhone").value.trim();
+  async function sendWebsiteOrder() {
 
-  const address =
-    document.getElementById("customerAddress").value.trim();
+    const name =
+        document.getElementById("customerName").value.trim();
 
-  const product =
-    document.getElementById("product").value;
+    const phone =
+        document.getElementById("customerPhone").value.trim();
 
-  const quantity =
-    document.getElementById("quantity").value;
+    const address =
+        document.getElementById("customerAddress").value.trim();
 
-  const message =
-    document.getElementById("message").value;
+    const product =
+        document.getElementById("product").value;
 
-  if (!name || !phone || !address || !product) {
-    alert("Please fill Name, Mobile Number, Address and Product.");
-    return;
-  }
+    const quantity =
+        document.getElementById("quantity").value;
 
-  const orderData = {
-    name: name,
-    mobile: phone,
-    address: address,
-    product: product,
-    quantity: quantity,
-    message: message
-  };
+    const message =
+        document.getElementById("message").value.trim();
 
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(orderData)
-  });
+    const photoInput =
+        document.getElementById("customerPhoto");
 
-  alert("✅ Your order has been submitted successfully!");
+    if (!name || !phone || !address || !product) {
+        alert("Please fill Name, Mobile Number, Address and Product.");
+        return;
+    }
+
+    if (!photoInput.files || !photoInput.files[0]) {
+        alert("Please upload your photo.");
+        return;
+    }
+
+    const photoFile = photoInput.files[0];
+
+    const photoBase64 = await new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+        reader.onerror = function () {
+            reject(new Error("Photo reading failed"));
+        };
+
+        reader.readAsDataURL(photoFile);
+    });
+
+    const orderData = {
+        name: name,
+        mobile: phone,
+        address: address,
+        product: product,
+        quantity: quantity,
+        message: message,
+        photo: photoBase64
+    };
+
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(orderData)
+    });
+
+    alert("✅ Your order has been submitted successfully!");
 }
 function sendOrder() {
 
