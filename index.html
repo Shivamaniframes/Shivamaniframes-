@@ -846,56 +846,42 @@ const GOOGLE_SCRIPT_URL =
 }
 function sendOrder() {
 
-    const name =
-        document.getElementById("customerName").value;
+    const name = document.getElementById("customerName").value.trim();
+    const phone = document.getElementById("customerPhone").value.trim();
+    const address = document.getElementById("customerAddress").value.trim();
+    const product = document.getElementById("product").value;
+    const quantity = document.getElementById("quantity").value;
+    const message = document.getElementById("message").value.trim();
 
-    const phone =
-        document.getElementById("customerPhone").value;
-    const address =
-    document.getElementById("customerAddress").value;
+    const photoInput = document.getElementById("customerPhoto");
 
-    const product =
-        document.getElementById("product").value;
-
-    const quantity =
-        document.getElementById("quantity").value;
-
-    const message =
-        document.getElementById("message").value;
-
-    if (name === "" || phone === "" || address === "" || product === "") {
-        alert("Please fill Name, Mobile Number and Product.");
-
+    if (!name || !phone || !address || !product || !quantity) {
+        alert("⚠️ Please fill all required order details.");
         return;
     }
-      const orderData = {
-    customerName: name,
-    mobile: phone,
-    address: address,
-    product: product,
-    quantity: quantity,
-    message: message
-    photoName: document.getElementById("customerPhoto").files[0]?.name || ""
-  };
 
-  
+    if (!photoInput || !photoInput.files || photoInput.files.length === 0) {
+        alert("⚠️ Please upload your photo.");
+        return;
+    }
+
     const whatsappNumber = "916383636141";
-const text =
-    
-        "🛒 *NEW ORDER - SHIVAMANI FRAMES*%0A%0A" +
-        "👤 Name: " + name + "%0A" +
-        "📱 Phone: " + phone + "%0A" +
-        "📍 Address: " + address + "%0A" +
-        "🖼️ Product: " + product + "%0A" +
-        "🔢 Quantity: " + quantity + "%0A" +
-        "📝 Message: " + message + "%0A%0A" +
-"📸 Customer Photo: " + Uploaded';
+
+    const text =
+        "🛒 *NEW ORDER - SHIVAMANI FRAMES*\n\n" +
+        "👤 Name: " + name + "\n" +
+        "📱 Phone: " + phone + "\n" +
+        "📍 Address: " + address + "\n" +
+        "🖼️ Product: " + product + "\n" +
+        "🔢 Quantity: " + quantity + "\n" +
+        "📝 Message: " + (message || "No additional requirements") + "\n" +
+        "📷 Customer Photo: Uploaded";
 
     const url =
         "https://wa.me/" +
         whatsappNumber +
-       "?text=" +
-encodeURIComponent(text);
+        "?text=" +
+        encodeURIComponent(text);
 
     window.open(url, "_blank");
 }
