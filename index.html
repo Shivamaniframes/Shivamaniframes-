@@ -844,47 +844,185 @@ const GOOGLE_SCRIPT_URL =
 
     alert("✅ Your order has been submitted successfully!");
 }
-function sendOrder() {
+async function sendOrder() {
 
-    const name = document.getElementById("customerName").value.trim();
-    const phone = document.getElementById("customerPhone").value.trim();
-    const address = document.getElementById("customerAddress").value.trim();
-    const product = document.getElementById("product").value;
-    const quantity = document.getElementById("quantity").value;
-    const message = document.getElementById("message").value.trim();
+    const name =
+        document.getElementById("customerName").value.trim();
 
-    const photoInput = document.getElementById("customerPhoto");
+    const phone =
+        document.getElementById("customerPhone").value.trim();
 
+    const address =
+        document.getElementById("customerAddress").value.trim();
+
+    const product =
+        document.getElementById("product").value;
+
+    const quantity =
+        document.getElementById("quantity").value;
+
+    const message =
+        document.getElementById("message").value.trim();
+
+    const photoInput =
+        document.getElementById("customerPhoto");
+
+
+    // REQUIRED DETAILS
     if (!name || !phone || !address || !product || !quantity) {
+
         alert("⚠️ Please fill all required order details.");
+
         return;
     }
 
-    if (!photoInput || !photoInput.files || photoInput.files.length === 0) {
+
+    // PHOTO CHECK
+    if (
+        !photoInput ||
+        !photoInput.files ||
+        photoInput.files.length === 0
+    ) {
+
         alert("⚠️ Please upload your photo.");
+
         return;
     }
 
-    const whatsappNumber = "916383636141";
 
-    const text =
-        "🛒 *NEW ORDER - SHIVAMANI FRAMES*\n\n" +
-        "👤 Name: " + name + "\n" +
-        "📱 Phone: " + phone + "\n" +
-        "📍 Address: " + address + "\n" +
-        "🖼️ Product: " + product + "\n" +
-        "🔢 Quantity: " + quantity + "\n" +
-        "📝 Message: " + (message || "No additional requirements") + "\n" +
-        📷 Customer Photo:
-https://drive.google.com/...
+    const photoFile = photoInput.files[0];
 
-    const url =
-        "https://wa.me/" +
-        whatsappNumber +
-        "?text=" +
-        encodeURIComponent(text);
 
-    window.open(url, "_blank");
+    // READ PHOTO
+    const photoBase64 = await new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+        reader.onerror = function () {
+            reject(new Error("Photo reading failed"));
+        };
+
+        reader.readAsDataURL(photoFile);
+
+    });
+
+
+    // ORDER DATA
+    const orderData = {
+
+        name: name,
+
+        mobile: phone,
+
+        address: address,
+
+        product: product,
+
+        quantity: quantity,
+
+        message: message,
+
+        photo: photoBase64
+
+    };
+
+
+    try {
+
+        alert("⏳ Uploading photo... Please wait.");
+
+
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify(orderData)
+
+        });
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+
+            alert(
+                "❌ Order failed.\n" +
+                (result.error || "Please try again.")
+            );
+
+            return;
+        }
+
+
+        // GOOGLE DRIVE PHOTO LINK
+        const photoUrl = result.photoUrl || "";
+
+
+        // WHATSAPP NUMBER
+        const whatsappNumber = "916383636141";
+
+
+        // WHATSAPP MESSAGE
+        const text =
+
+            "🛒 *NEW ORDER - SHIVAMANI FRAMES*\n\n" +
+
+            "👤 Name: " + name + "\n" +
+
+            "📱 Phone: " + phone + "\n" +
+
+            "📍 Address: " + address + "\n" +
+
+            "🖼️ Product: " + product + "\n" +
+
+            "🔢 Quantity: " + quantity + "\n" +
+
+            "📝 Message: " +
+            (message || "No additional requirements") +
+            "\n\n" +
+
+            "📸 *Customer Photo:*\n" +
+
+            (photoUrl || "Photo link not available");
+
+
+        const url =
+
+            "https://wa.me/" +
+
+            whatsappNumber +
+
+            "?text=" +
+
+            encodeURIComponent(text);
+
+
+        window.open(url, "_blank");
+
+
+        alert("✅ Order submitted successfully!");
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ Order could not be sent.\n\n" +
+            error.message
+        );
+
+    }
+
 }
     const startDate = new Date("2025-03-12");
 
