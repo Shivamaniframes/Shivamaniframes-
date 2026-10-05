@@ -669,7 +669,7 @@ wedding albums and online frame orders in Jammanahalli and Harur, Tamil Nadu.
 <button
     type="button"
     class="submit-btn"
-    onclick="sendWhatsAppOrder()">
+    onclick="sendOrder()">
     🛒 Place Order
 </button>
 <div style="text-align:center; margin-top:15px;">
@@ -835,16 +835,12 @@ const GOOGLE_SCRIPT_URL =
 
    const response = await fetch(GOOGLE_SCRIPT_URL, {
     method: "POST",
-    mode: "cors",
+    mode: "no-cors",
     headers: {
         "Content-Type": "text/plain;charset=utf-8"
     },
     body: JSON.stringify(orderData)
 });
-
-const result = await response.json();
-
-constphotoUrl = result.photoUrl || "";
 
     alert("✅ Your order has been submitted successfully!");
 }
