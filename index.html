@@ -314,7 +314,10 @@ form.addEventListener("submit",async function(e){
  const photoInput=document.getElementById("customerPhoto");
 
  if(!/^\d{10}$/.test(mobile)){showStatus("Please enter a valid 10 digit mobile number.",true);return;}
- if(!product.value||!frame||!payment){showStatus("Please select all required order details.",true);return;}
+ if(!product.value || !frame.value || !payment.value){
+  showStatus("Please select all required order details.",true);
+  return;
+ }
  if(!photoInput.files?.[0]){showStatus("Please upload your photo.",true);return;}
  const photoFile=photoInput.files[0];
  if(!photoFile.type.startsWith("image/")){showStatus("Please select an image file.",true);return;}
