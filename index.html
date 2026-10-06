@@ -42,6 +42,7 @@ textarea{min-height:90px;resize:vertical}
 .total{margin:18px 0;padding:16px;border-radius:12px;background:#fff7fa;border:1px solid #ead7df;display:flex;justify-content:space-between;font-size:18px}
 .status{display:none;margin:15px 0;padding:13px;border-radius:10px;background:#12351f;border:1px solid #1e8d4d;color:#bff5d0}
 .status.error{background:#3a1515;border-color:#a33;color:#ffd0d0}
+.status.info{background:#1a2438;border-color:#4169a1;color:#dbe8ff}
 .payment-box{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center;max-width:650px;margin:auto;background:#fff;border:1px solid #ead7df;border-radius:18px;padding:20px;box-shadow:0 4px 15px rgba(80,30,50,.07)}
 .payment-box img{width:160px;height:160px;background:#fff;padding:8px;border-radius:12px}
 .upi{font-size:18px;font-weight:800;color:#7b1744;word-break:break-all}
@@ -50,6 +51,8 @@ textarea{min-height:90px;resize:vertical}
 .count{display:inline-flex;gap:8px;align-items:center;margin:16px auto;padding:10px 16px;border-radius:30px;background:#fff;border:1px solid #e1b4c7;color:#5b2340}
 footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#fff;border-top:1px solid #222}
 .small{font-size:13px;color:#777}
+button:disabled{opacity:.65;cursor:not-allowed}
+.field-error{border-color:#dc2626!important;background:#fff7f7!important}
 @media(max-width:700px){
  .navlinks{gap:8px;font-size:12px}
  .navlinks a:nth-child(n+5){display:none}
@@ -104,7 +107,6 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 </div>
 </section>
 
-
 <section class="section" id="experience">
 <div class="experience-center">
   <h3>🏆 Shivamani Frames</h3>
@@ -139,8 +141,7 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 <h2>UPI Payment Scanner</h2>
 <div class="payment-box">
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi%3A%2F%2Fpay%3Fpa%3Dmanipressmedia-2%40okaxis%26pn%3DShivamani%2520Frames"
-     alt="UPI Payment QR"
-     style="width:140px;height:140px;object-fit:contain;">
+     alt="UPI Payment QR" style="width:140px;height:140px;object-fit:contain;">
 <div style="margin-left:20px;">
 <h3>Scan & Pay</h3>
 <p class="upi">manipressmedia-2@okaxis</p>
@@ -152,13 +153,15 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 <section class="section" id="order">
 <h2>Online Order</h2>
 <div class="order-wrap">
-<form id="orderForm">
+<form id="orderForm" novalidate>
 <div class="row">
-<div><label for="customerName">Customer Name *</label><input id="customerName" required placeholder="Enter your name"></div>
-<div><label for="customerPhone">Mobile Number *</label><input id="customerPhone" required inputmode="numeric" maxlength="10" placeholder="10 digit mobile number"></div>
+<div><label for="customerName">Customer Name *</label><input id="customerName" required placeholder="Enter your name" autocomplete="name"></div>
+<div><label for="customerPhone">Mobile Number *</label><input id="customerPhone" required inputmode="numeric" maxlength="10" placeholder="10 digit mobile number" autocomplete="tel"></div>
 </div>
+
 <label for="customerAddress">Delivery / Contact Address *</label>
-<textarea id="customerAddress" required placeholder="Enter your address"></textarea>
+<textarea id="customerAddress" required placeholder="Enter your address" autocomplete="street-address"></textarea>
+
 <div class="row">
 <div>
 <label for="product">Frame Size *</label>
@@ -182,30 +185,35 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 <option data-price="4500" value="20 × 30 - 2 inch">20 × 30 - 2" - ₹4500</option>
 </select>
 </div>
+
 <div>
 <label for="frame">Frame Type *</label>
 <select id="frame" required>
 <option value="">Select Occasion</option>
-<option>🎓 College / Graduation</option>
-<option>💍 Anniversary</option>
-<option>🎂 Birthday</option>
-<option>💑 Wedding</option>
-<option>👶 Baby / Kids</option>
-<option>🎁 Gift</option>
-<option>🏠 Home / Family</option>
-<option>📸 Normal Photo</option>
+<option value="🎓 College / Graduation">🎓 College / Graduation</option>
+<option value="💍 Anniversary">💍 Anniversary</option>
+<option value="🎂 Birthday">🎂 Birthday</option>
+<option value="💑 Wedding">💑 Wedding</option>
+<option value="👶 Baby / Kids">👶 Baby / Kids</option>
+<option value="🎁 Gift">🎁 Gift</option>
+<option value="🏠 Home / Family">🏠 Home / Family</option>
+<option value="📸 Normal Photo">📸 Normal Photo</option>
 </select>
 </div>
 </div>
+
 <div class="row">
-<div><label for="quantity">Quantity *</label><input id="quantity" type="number" min="1" value="1" required></div>
-<div><label for="payment">Payment Method *</label><select id="payment" required><option value="">Select payment</option><option>UPI</option><option>Pay at Shop</option></select></div>
+<div><label for="quantity">Quantity *</label><input id="quantity" type="number" min="1" max="99" value="1" required></div>
+<div><label for="payment">Payment Method *</label><select id="payment" required><option value="">Select payment</option><option value="UPI">UPI</option><option value="Pay at Shop">Pay at Shop</option></select></div>
 </div>
+
 <label for="message">Additional Message</label>
 <textarea id="message" placeholder="Any special request?"></textarea>
+
 <label for="customerPhoto">Upload Photo *</label>
-<input id="customerPhoto" type="file" accept="image/*" required>
+<input id="customerPhoto" type="file" accept="image/jpeg,image/png,image/webp" required>
 <p class="small">Please select one clear photo. Maximum 8 MB.</p>
+
 <div class="total"><span>Total Amount</span><strong>₹<span id="totalAmount">0</span></strong></div>
 <div id="status" class="status"></div>
 <button id="placeOrderBtn" class="btn" type="submit" style="width:100%;font-size:17px">🛒 Place Order</button>
@@ -230,49 +238,73 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 </footer>
 
 <script>
+"use strict";
+
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec";
 const WHATSAPP_NUMBER="6383636141";
 
 const form=document.getElementById("orderForm");
-const product=document.getElementById("product");
- const frame = document.getElementById("frame");
-const payment = document.getElementById("payment");
-const quantity=document.getElementById("quantity");
+const productSelect=document.getElementById("product");
+const frameSelect=document.getElementById("frame");
+const paymentSelect=document.getElementById("payment");
+const quantityInput=document.getElementById("quantity");
 const totalAmount=document.getElementById("totalAmount");
 const statusBox=document.getElementById("status");
 const button=document.getElementById("placeOrderBtn");
 const countBox=document.getElementById("orderCount");
+const photoInput=document.getElementById("customerPhoto");
 
 function calculateTotal(){
- const option=product.options[product.selectedIndex];
- const price=Number(option?.dataset?.price||0);
- const qty=Math.max(1,Number(quantity.value||1));
- totalAmount.textContent=(price*qty).toLocaleString("en-IN");
- return price*qty;
+  const option=productSelect.options[productSelect.selectedIndex];
+  const price=Number(option && option.dataset ? option.dataset.price : 0);
+  let qty=Number(quantityInput.value);
+  if(!Number.isFinite(qty) || qty<1) qty=1;
+  if(qty>99) qty=99;
+  quantityInput.value=qty;
+  const total=price*qty;
+  totalAmount.textContent=total.toLocaleString("en-IN");
+  return total;
 }
-product.addEventListener("change",calculateTotal);
-quantity.addEventListener("input",calculateTotal);
 
-function showStatus(message,error=false){
- statusBox.textContent=message;
- statusBox.className="status"+(error?" error":"");
- statusBox.style.display="block";
+productSelect.addEventListener("change",calculateTotal);
+quantityInput.addEventListener("input",calculateTotal);
+
+function showStatus(message,error=false,info=false){
+  statusBox.textContent=message;
+  statusBox.className="status"+(error?" error":info?" info":"");
+  statusBox.style.display="block";
 }
+
+function clearErrors(){
+  document.querySelectorAll(".field-error").forEach(el=>el.classList.remove("field-error"));
+}
+
+function markError(el){
+  if(el) el.classList.add("field-error");
+}
+
 function fileToBase64(file){
- return new Promise((resolve,reject)=>{
-  const reader=new FileReader();
-  reader.onload=()=>resolve(reader.result);
-  reader.onerror=()=>reject(new Error("Photo reading failed"));
-  reader.readAsDataURL(file);
- });
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=()=>reject(new Error("Photo reading failed"));
+    reader.readAsDataURL(file);
+  });
 }
+
 function makeOrderId(){
- const d=new Date();
- return "SF-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(d.getHours()).padStart(2,"0")+String(d.getMinutes()).padStart(2,"0")+String(d.getSeconds()).padStart(2,"0");
+  const d=new Date();
+  const random=Math.floor(100+Math.random()*900);
+  return "SF-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+
+    String(d.getDate()).padStart(2,"0")+"-"+
+    String(d.getHours()).padStart(2,"0")+
+    String(d.getMinutes()).padStart(2,"0")+
+    String(d.getSeconds()).padStart(2,"0")+"-"+random;
 }
+
 function openWhatsApp(order){
- if(!WHATSAPP_NUMBER||WHATSAPP_NUMBER==="REPLACE_WITH_YOUR_WHATSAPP_NUMBER") return false;
- const text=`🖼️ *SHIVAMANI FRAMES - NEW ORDER*
+  if(!WHATSAPP_NUMBER) return false;
+  const text=`🖼️ *SHIVAMANI FRAMES - NEW ORDER*
 
 Order ID: ${order.orderId}
 Name: ${order.name}
@@ -290,111 +322,169 @@ Message:
 ${order.message||"None"}
 
 Photo: Uploaded on website`;
- window.open("https://wa.me/"+WHATSAPP_NUMBER.replace(/\D/g,"")+"?text="+encodeURIComponent(text),"_blank");
- return true;
+
+  const url="https://wa.me/"+WHATSAPP_NUMBER.replace(/\D/g,"")+"?text="+encodeURIComponent(text);
+  window.open(url,"_blank","noopener");
+  return true;
 }
+
 async function sendOrder(order){
- await fetch(GOOGLE_SCRIPT_URL,{
-  method:"POST",
-  mode:"no-cors",
-  headers:{"Content-Type":"text/plain;charset=utf-8"},
-  body:JSON.stringify(order)
- });
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.indexOf("/exec")===-1){
+    throw new Error("Google Script URL is not configured.");
+  }
+
+  // Apps Script web apps commonly accept text/plain POST with no-cors.
+  // The response cannot be read in no-cors mode, but the request is sent.
+  await fetch(GOOGLE_SCRIPT_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(order),
+    keepalive:true
+  });
 }
+
+function validateOrder(){
+  clearErrors();
+
+  const name=document.getElementById("customerName").value.trim();
+  const mobile=document.getElementById("customerPhone").value.replace(/\D/g,"");
+  const address=document.getElementById("customerAddress").value.trim();
+  const selectedProduct=productSelect.value;
+  const selectedFrame=frameSelect.value;
+  const qty=Number(quantityInput.value);
+  const selectedPayment=paymentSelect.value;
+  const photo=photoInput.files && photoInput.files[0];
+
+  if(!name){
+    markError(document.getElementById("customerName"));
+    showStatus("Please enter customer name.",true);
+    return false;
+  }
+
+  if(!/^[6-9]\d{9}$/.test(mobile)){
+    markError(document.getElementById("customerPhone"));
+    showStatus("Please enter a valid 10 digit Indian mobile number.",true);
+    return false;
+  }
+
+  if(!address){
+    markError(document.getElementById("customerAddress"));
+    showStatus("Please enter delivery / contact address.",true);
+    return false;
+  }
+
+  // IMPORTANT FIX:
+  // Use the SELECT elements themselves for validation.
+  // Previously frame was converted to a string and then frame.value was checked,
+  // which made the form fail every time.
+  if(!selectedProduct){
+    markError(productSelect);
+    showStatus("Please select a frame size.",true);
+    return false;
+  }
+
+  if(!selectedFrame){
+    markError(frameSelect);
+    showStatus("Please select a frame type / occasion.",true);
+    return false;
+  }
+
+  if(!Number.isInteger(qty) || qty<1 || qty>99){
+    markError(quantityInput);
+    showStatus("Quantity must be between 1 and 99.",true);
+    return false;
+  }
+
+  if(!selectedPayment){
+    markError(paymentSelect);
+    showStatus("Please select a payment method.",true);
+    return false;
+  }
+
+  if(!photo){
+    markError(photoInput);
+    showStatus("Please upload your photo.",true);
+    return false;
+  }
+
+  if(!photo.type.startsWith("image/")){
+    markError(photoInput);
+    showStatus("Please select an image file.",true);
+    return false;
+  }
+
+  if(photo.size>8*1024*1024){
+    markError(photoInput);
+    showStatus("Photo must be smaller than 8 MB.",true);
+    return false;
+  }
+
+  return true;
+}
+
 form.addEventListener("submit",async function(e){
- e.preventDefault();
- statusBox.style.display="none";
- const name=document.getElementById("customerName").value.trim();
- const mobile=document.getElementById("customerPhone").value.trim();
- const address=document.getElementById("customerAddress").value.trim();
- const frame=document.getElementById("frame").value;
- const qty=Math.max(1,Number(quantity.value||1));
- const payment=document.getElementById("payment").value;
- const message=document.getElementById("message").value.trim();
- const photoInput=document.getElementById("customerPhoto");
+  e.preventDefault();
+  statusBox.style.display="none";
 
- if(!/^\d{10}$/.test(mobile)){showStatus("Please enter a valid 10 digit mobile number.",true);return;}
- if(!product.value || !frame.value || !payment.value){
-  showStatus("Please select all required order details.",true);
-  return;
- }
- if(!photoInput.files?.[0]){showStatus("Please upload your photo.",true);return;}
- const photoFile=photoInput.files[0];
- if(!photoFile.type.startsWith("image/")){showStatus("Please select an image file.",true);return;}
- if(photoFile.size>8*1024*1024){showStatus("Photo must be smaller than 8 MB.",true);return;}
+  if(!validateOrder()) return;
 
- const amount=calculateTotal();
- const orderId=makeOrderId();
- button.disabled=true;
- button.textContent="⏳ Sending Order...";
- try{
-  const photoBase64=await fileToBase64(photoFile);
-  const order={
-   orderId:orderId,date:new Date().toISOString(),
-   name:name,mobile:mobile,address:address,
-   size:product.value,product:product.value,frame:frame,
-   quantity:qty,amount:amount,message:message,payment:payment,
-   photo:photoBase64
-  };
-  await sendOrder(order);
-  const localCount=Number(localStorage.getItem("shivamaniOrderCount")||"0")+1;
-  localStorage.setItem("shivamaniOrderCount",localCount);
-  countBox.textContent=localCount;
-  showStatus("✅ Order submitted. Order ID: "+orderId);
-  openWhatsApp(order);
-  form.reset();
-  quantity.value=1;
-  totalAmount.textContent="0";
- }catch(error){
-  console.error(error);
-  showStatus("❌ Order failed. Please try again.",true);
- }finally{
-  button.disabled=false;
-  button.textContent="🛒 Place Order";
- }
-});
-async function loadOrderCount(){
- const local=Number(localStorage.getItem("shivamaniOrderCount")||"0");
- countBox.textContent=local;
- try{
-  const r=await fetch(GOOGLE_SCRIPT_URL+"?action=count",{cache:"no-store"});
-  if(!r.ok)return;
-  const data=await r.json();
-  if(data?.success&&Number.isFinite(Number(data.orderCount))){
-   countBox.textContent=Number(data.orderCount);
-   localStorage.setItem("shivamaniOrderCount",String(data.orderCount));
-  }
- }catch(e){console.log("Count refresh unavailable",e)}
-}
- function updateExperience() {
-  const startDate = new Date(2025, 2, 12);
-  const today = new Date();
+  const name=document.getElementById("customerName").value.trim();
+  const mobile=document.getElementById("customerPhone").value.replace(/\D/g,"");
+  const address=document.getElementById("customerAddress").value.trim();
+  const selectedFrame=frameSelect.value;
+  const qty=Number(quantityInput.value);
+  const selectedPayment=paymentSelect.value;
+  const message=document.getElementById("message").value.trim();
+  const photoFile=photoInput.files[0];
 
-  let years = today.getFullYear() - startDate.getFullYear();
-  let months = today.getMonth() - startDate.getMonth();
-
-  if (today.getDate() < startDate.getDate()) {
-    months--;
+  const amount=calculateTotal();
+  if(amount<=0){
+    showStatus("Please select a valid frame size.",true);
+    return;
   }
 
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
+  const orderId=makeOrderId();
+  button.disabled=true;
+  button.textContent="⏳ Sending Order...";
 
-  let text = years + " Year" + (years !== 1 ? "s" : "");
+  try{
+    showStatus("⏳ Preparing your order...",false,true);
 
-  if (months > 0) {
-    text += " " + months + " Month" + (months !== 1 ? "s" : "");
-  }
+    const photoBase64=await fileToBase64(photoFile);
 
-  document.getElementById("experienceYears").textContent =
-    text + " Experience";
-}
+    const order={
+      orderId:orderId,
+      date:new Date().toISOString(),
+      name:name,
+      mobile:mobile,
+      address:address,
+      size:productSelect.value,
+      product:productSelect.value,
+      frame:selectedFrame,
+      quantity:qty,
+      amount:amount,
+      message:message,
+      payment:selectedPayment,
+      photo:photoBase64
+    };
 
-updateExperience();
-calculateTotal();
-loadOrderCount();
-</script>
-</body>
-</html>
+    await sendOrder(order);
+
+    // Keep a local count as an immediate fallback.
+    const localCount=Number(localStorage.getItem("shivamaniOrderCount")||"0")+1;
+    localStorage.setItem("shivamaniOrderCount",String(localCount));
+    countBox.textContent=localCount;
+
+    showStatus("✅ Order submitted successfully! Order ID: "+orderId);
+
+    // WhatsApp confirmation to owner.
+    openWhatsApp(order);
+
+    // Reset form only after the POST request has been sent.
+    form.reset();
+    quantityInput.value=1;
+    totalAmount.textContent="0";
+    clearErrors();
+
+    // Refre
