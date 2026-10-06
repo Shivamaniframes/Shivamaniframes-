@@ -106,10 +106,10 @@ footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#f
 
 
 <section class="section" id="experience">
-<h2>Our Experience</h2>
-<div class="cards">
-    <div class="price">1+ Year Experience</div>
-  </div>
+<div class="experience-center">
+  <h3>🏆 Shivamani Frames</h3>
+  <p>Professional photo framing, printing, photo editing and album design services.</p>
+  <div class="price" id="experienceYears">Calculating...</div>
 </div>
 </section>
 
@@ -366,6 +366,33 @@ async function loadOrderCount(){
   }
  }catch(e){console.log("Count refresh unavailable",e)}
 }
+ function updateExperience() {
+  const startDate = new Date(2025, 2, 12);
+  const today = new Date();
+
+  let years = today.getFullYear() - startDate.getFullYear();
+  let months = today.getMonth() - startDate.getMonth();
+
+  if (today.getDate() < startDate.getDate()) {
+    months--;
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  let text = years + " Year" + (years !== 1 ? "s" : "");
+
+  if (months > 0) {
+    text += " " + months + " Month" + (months !== 1 ? "s" : "");
+  }
+
+  document.getElementById("experienceYears").textContent =
+    text + " Experience";
+}
+
+updateExperience();
 calculateTotal();
 loadOrderCount();
 </script>
