@@ -1,1203 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-   <title>Photo Frame Shop in Jammanahalli, Harur | Shivamani Frames</title>
-
-    <meta name="description"
-          content="Shivamani Frames - Photo Frames, Printing, Album Design and Online Orders in  Harur, Tamil Nadu.">
-<meta name="keywords"
-content="frame shop Jammanahalli, photo frame shop Jammanahalli, photo frames Jammanahalli, frame shop Harur, photo frame shop Harur, custom photo frame Harur, photo printing Jammanahalli, photo printing Harur, wedding album Harur, Shivamani Frames">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            color: #222;
-            line-height: 1.6;
-        }
-
-        /* HEADER */
-        header {
-            background: #111;
-            color: white;
-            padding: 15px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivamani Frames | Photo Frames & Online Orders</title>
+<meta name="description" content="Shivamani Frames - Photo Frames, Printing, Album Design and Online Orders.">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#222}
+a{text-decoration:none;color:inherit}
+header{position:sticky;top:0;z-index:100;background:#000;border-bottom:1px solid #333;backdrop-filter:blur(10px)}
+.nav{max-width:1150px;margin:auto;padding:10px 16px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:58px;height:42px;object-fit:cover;border-radius:7px;border:1px solid #d6a928}
+.brand span{font-weight:800;color:#fff;white-space:nowrap}
+.navlinks{margin-left:auto;display:flex;gap:15px;align-items:center;font-weight:700;font-size:14px}
+.navlinks a{color:#fff}.navlinks a:hover{color:#ffd76a}
+.hero{max-width:1150px;margin:auto;padding:28px 16px 42px;text-align:center;background:#000;color:#fff;border-radius:0 0 28px 28px}
+.hero-logo{width:min(900px,100%);max-height:390px;object-fit:contain;border-radius:16px;display:block;margin:0 auto 20px;box-shadow:0 15px 50px rgba(255,190,30,.16)}
+.hero h1{font-size:clamp(30px,6vw,56px);margin:8px 0;color:#fff}
+.hero p{color:#fff;line-height:1.6;margin:8px auto;max-width:760px}
+.top-info{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:18px 0}
+.info-chip{padding:10px 14px;border:1px solid #444;border-radius:30px;background:#111;color:#fff}
+.btn{display:inline-block;border:0;border-radius:11px;padding:13px 20px;font-weight:800;cursor:pointer;background:#16a34a;color:#fff}
+.btn.gold{background:linear-gradient(135deg,#c58b18,#f4d56d,#a86c08);color:#1b1304}
+.btn.instagram{background:#d62976}
+.section{max-width:1150px;margin:auto;padding:32px 16px;background:#fff;color:#222}
+.section h2{text-align:center;font-size:30px;color:#7b1744;margin:0 0 24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:15px}
+.card{background:#fff;border:1px solid #ead7df;border-radius:16px;padding:20px;text-align:center;box-shadow:0 4px 15px rgba(80,30,50,.07)}
+.card h3{margin:5px 0 9px;color:#7b1744}
+.card p{color:#555;line-height:1.5}
+.price{font-size:20px;font-weight:800;color:#222}
+.order-wrap{max-width:800px;margin:auto;background:#fff;border:1px solid #ead7df;border-radius:20px;padding:24px;box-shadow:0 5px 20px rgba(80,30,50,.08)}
+label{display:block;margin:14px 0 7px;font-weight:700}
+input,select,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid #d8c7cf;background:#fff;color:#222;outline:none;font-size:15px}
+input:focus,select:focus,textarea:focus{border-color:#d46a9a}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.total{margin:18px 0;padding:16px;border-radius:12px;background:#fff7fa;border:1px solid #ead7df;display:flex;justify-content:space-between;font-size:18px}
+.status{display:none;margin:15px 0;padding:13px;border-radius:10px;background:#12351f;border:1px solid #1e8d4d;color:#bff5d0}
+.status.error{background:#3a1515;border-color:#a33;color:#ffd0d0}
+.payment-box{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center;max-width:650px;margin:auto;background:#fff;border:1px solid #ead7df;border-radius:18px;padding:20px;box-shadow:0 4px 15px rgba(80,30,50,.07)}
+.payment-box img{width:160px;height:160px;background:#fff;padding:8px;border-radius:12px}
+.upi{font-size:18px;font-weight:800;color:#7b1744;word-break:break-all}
+.address-box{max-width:800px;margin:auto;text-align:center;padding:20px;border-radius:16px;background:#000;color:#fff;border:1px solid #222}
+.address-box strong{color:#f7c6d9}
+.count{display:inline-flex;gap:8px;align-items:center;margin:16px auto;padding:10px 16px;border-radius:30px;background:#fff;border:1px solid #e1b4c7;color:#5b2340}
+footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#fff;border-top:1px solid #222}
+.small{font-size:13px;color:#777}
+@media(max-width:700px){
+ .navlinks{gap:8px;font-size:12px}
+ .navlinks a:nth-child(n+5){display:none}
+ .brand span{display:none}
+ .row{grid-template-columns:1fr}
+ .payment-box{grid-template-columns:1fr;text-align:center}
+ .payment-box img{margin:auto}
+ .hero{padding-top:20px}
 }
-
-.logo img {
-    width: 180px;
-    height: 55px;
-    object-fit: contain;
-    display: block;
-}
-.hero-title-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.hero-title-logo img {
-    width: 320px;
-    max-width: 80vw;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 18px;
-            font-size: 15px;
-        }
-
-        nav a:hover {
-            color: #ffd700;
-        }
-
-        /* HERO */
-        .hero {
-            min-height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #1a0f08, #3b2414, #111);
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 45px;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 19px;
-            margin-bottom: 25px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 13px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 5px;
-        }
-
-        .whatsapp {
-            background: #25D366;
-            color: white;
-        }
-
-        .order {
-            background: #ffd700;
-            color: #111;
-        }
-.instagram {
-    background: #E1306C;
-    color: white;
-}
-        /* SECTION */
-        section {
-            padding: 55px 6%;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 30px;
-        }
-
-
-
-/* YEARS COUNTER */
-.stats-section {
-    display: flex;
-    justify-content: center;
-    padding: 30px 6%;
-}
-
-.stat-box {
-    text-align: center;
-    padding: 25px;
-}
-
-.stat-number {
-    font-size: 40px;
-    font-weight: bold;
-}
-
-.stat-box div:last-child {
-    font-size: 18px;
-}
-
-
-/* PRODUCTS */
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-}
-
-        .product {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
-        }
-
-        .product h3 {
-            margin-bottom: 8px;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 12px 0;
-        }
-
-        /* SERVICES */
-        .services {
-            background: white;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .service {
-            padding: 25px;
-            background: #f5f5f5;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .service-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        /* ORDER */
-        .order-section {
-            background: #111;
-            color: white;
-            text-align: center;
-        }
-
-        .order-box {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .order-box input,
-        .order-box select,
-        .order-box textarea {
-            width: 100%;
-            padding: 13px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 7px;
-            font-size: 15px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            border: none;
-            padding: 14px;
-            background: #25D366;
-            color: white;
-            border-radius: 7px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* CONTACT */
-        .contact {
-            text-align: center;
-            background: white;
-        }
-
-        .contact p {
-            margin: 8px;
-            font-size: 17px;
-        }
-
-        /* FOOTER */
-        footer {
-            background: #111;
-            color: white;
-            text-align: center;
-            padding: 25px;
-        }
-
-        /* MOBILE */
-        @media (max-width: 700px) {
-
-            header {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            nav a {
-                margin: 0 6px;
-                font-size: 13px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Shivamani Frames",
-  "description": "Photo Frame Shop in Jammanahalli, Harur, Tamil Nadu",
-  "url": "https://shivamaniframes.in",
-  "telephone": "+916383636141",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Harur",
-    "addressRegion": "Tamil Nadu",
-    "addressCountry": "IN"
-  }
-}
-</script>
+</style>
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header>
-
-    <a href="#home" class="logo">
+<div class="nav">
+  <a href="#home" class="brand">
     <img src="logo.png" alt="Shivamani Frames Logo">
-</a>
-
-
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#products">Frames</a>
-        <a href="#services">Services</a>
-        <a href="#order">Order</a>
-        <a href="#contact">Contact</a>
- </nav>
-
+    <span>Shivamani Frames</span>
+  </a>
+  <nav class="navlinks">
+    <a href="#home">🏠 Home</a>
+    <a href="#services">Services</a>
+    <a href="#experience">Experience</a>
+    <a href="#prices">Prices</a>
+    <a href="#order">Order</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
 </header>
 
-
-<!-- HOME -->
-<section class="hero" id="home">
-
-    <div>
-
-<div class="hero-title-logo">
-    <img src="logo.png" alt="Shivamani Frames">
-</div>
-
-    <p>
-        Beautiful Photo Frames • Printing • Album Design
-    </p>
-
-    <p>
-        Preserve Your Beautiful Memories ❤️
-    </p>
-      
-<h2>Photo Frame Shop in Jammanahalli, Harur</h2>
-
-<p>
-Shivamani Frames offers custom photo frames, photo printing,
-wedding albums and online frame orders in Jammanahalli and Harur, Tamil Nadu.
-</p>
-        <a class="btn whatsapp"
-           href="https://wa.me/916383636141"
-           target="_blank">
-            📱 WhatsApp Order
-        </a>
-
-        <a class="btn order"
-           href="#order">
-            🛒 Order Now
-        </a>
-<a class="btn instagram"
-   href="https://www.instagram.com/shivamani_frames/"
-   target="_blank">
-   📷 Instagram
-</a>
-    </div>
-
-</section>
-
-<!-- YEARS COUNTER -->
-<section class="stats-section">
-  <div class="stat-box">
-    <div class="stat-number" id="yearsCount">0+</div>
-    <div>Years Experience</div>
+<main id="home">
+<section class="hero">
+  <img class="hero-logo" src="logo.png" alt="Shivamani Frames">
+  <h1>Shivamani Frames</h1>
+  <p>🖼️ Photo Frames • 🖨️ Printing • 💍 Wedding Albums • 🎨 Photo Editing</p>
+  <div class="top-info">
+    <div class="info-chip">📍 Jammanahalli | Harur | Tamil Nadu</div>
+    <div class="info-chip">💳 UPI: manipressmedia-2@okaxis</div>
   </div>
-</section>
-<!-- PRODUCTS -->
-<section id="products">
-
-    <h2 class="section-title">
-        🖼️ Photo Frame Price List
-    </h2>
-
-    <div class="products">
-
-        <div class="product">
-            <h3>4 × 4</h3>
-            <p>1" Frame</p>
-            <div class="price">₹100</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>6 × 4</h3>
-            <p>1" Frame</p>
-            <div class="price">₹150</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>6 × 8</h3>
-            <p>1" Frame</p>
-            <div class="price">₹250</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>10 × 8</h3>
-            <p>1" Frame</p>
-            <div class="price">₹400</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>12 × 8</h3>
-            <p>1" Frame</p>
-            <div class="price">₹600</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>12 × 10</h3>
-            <p>1" Frame</p>
-            <div class="price">₹700</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>12 × 15</h3>
-            <p>1" Frame</p>
-            <div class="price">₹850</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>12 × 18</h3>
-            <p>1" Frame</p>
-            <div class="price">₹1200</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>12 × 24</h3>
-            <p>1" Frame</p>
-            <div class="price">₹1800</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>16 × 20</h3>
-            <p>1" Frame</p>
-            <div class="price">₹2200</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>16 × 24</h3>
-            <p>1" Frame</p>
-            <div class="price">₹2500</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>20 × 24</h3>
-            <p>1" Frame</p>
-            <div class="price">₹3000</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>20 × 24</h3>
-            <p>1.5" Frame</p>
-            <div class="price">₹3200</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>20 × 24</h3>
-            <p>2" Frame</p>
-            <div class="price">₹3500</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>20 × 30</h3>
-            <p>1.5" Frame</p>
-            <div class="price">₹4000</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-        <div class="product">
-            <h3>20 × 30</h3>
-            <p>2" Frame</p>
-            <div class="price">₹4500</div>
-            <a class="btn whatsapp"
-               href="https://wa.me/916383636141">
-                Order
-            </a>
-        </div>
-
-    </div>
-
+  <a class="btn gold" href="#order">🛒 Place Order</a>
+  <a class="btn instagram" href="https://www.instagram.com/shivamani_frames?stkn=bGZ0cGx1cmt4MDZx" target="_blank" rel="noopener">📸 Instagram</a>
+  <div class="count">📦 Total Orders: <strong id="orderCount">0</strong></div>
 </section>
 
-
-<!-- SERVICES -->
-<section class="services" id="services">
-
-    <h2 class="section-title">
-        ✨ Our Services
-    </h2>
-
-    <div class="service-grid">
-
-        <div class="service">
-            <div class="service-icon">🖼️</div>
-            <h3>Photo Frames</h3>
-            <p>Different sizes and frame designs.</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">📸</div>
-            <h3>Photo Printing</h3>
-            <p>High quality photo printing.</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">💍</div>
-            <h3>Wedding Album</h3>
-            <p>Beautiful wedding album designs.</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">🎨</div>
-            <h3>Photo Editing</h3>
-            <p>Professional photo editing services.</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">📚</div>
-            <h3>Project Binding</h3>
-            <p>Project printing and binding services.</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">💳</div>
-            <h3>PVC Card Printing</h3>
-            <p>Quality PVC card printing.</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ONLINE ORDER -->
-<section class="order-section" id="order">
-
-    <div class="order-box">
-
-        <h2 class="section-title">
-            🛒 Online Order
-        </h2>
-
-        <p>
-            Fill your details and send your order through WhatsApp.
-        </p>
-
-        <br>
-
-        <input
-            type="text"
-            id="customerName"
-            placeholder="Your Name">
-
-        <input
-            type="tel"
-            id="customerPhone"
-            placeholder="Mobile Number">
-        <textarea
-    id="customerAddress"
-    rows="3"
-    placeholder="Delivery Address"
-    required></textarea>
-
-        <select id="product">
-
-            <option value="">
-                Select Frame Size
-            </option>
-
-            <option>4 × 4 - ₹100</option>
-            <option>6 × 4 - ₹150</option>
-           <option>6 × 8 - ₹250</option>
-            <option>10 × 8 - ₹400</option>
-            <option>12 × 8 - ₹600</option>
-            <option>12 × 10 - ₹700</option>
-            <option>12 × 15 - ₹850</option>
-            <option>12 × 18 - ₹1200</option>
-            <option>12 × 24 - ₹1800</option>
-            <option>16 × 20 - ₹2200</option>
-            <option>16 × 24 - ₹2500</option>
-            <option>20 × 24 - ₹3000</option>
-            <option>20 × 24 - 1.5" - ₹3200</option>
-            <option>20 × 24 - 2" - ₹3500</option>
-            <option>20 × 30 - 1.5" - ₹4000</option>
-            <option>20 × 30 - 2" - ₹4500</option>
-
-        </select>
-
-        <input
-            type="number"
-            id="quantity"
-            placeholder="Quantity"
-            min="1"
-            value="1">
-
-<textarea
-    id="message"
-    rows="4"
-    placeholder="Additional requirements"></textarea>
-
-<label for="customerPhoto">📷 Upload Photo</label>
-
-<input
-    type="file"
-    id="customerPhoto"
-    accept="image/*"
-    required>
-
-<button
-  type="button"
-  class="submit-btn"
-  onclick="sendWebsiteOrder()">
-  🛒 Place Order
-</button>
-<div style="text-align:center; margin-top:15px;">
-
-  <p>
-    <strong>💳 UPI Payment</strong>
-  </p>
-
-  <p>
-    Total Amount:
-    <strong>₹<span id="upiAmount">0</span></strong>
-  </p>
-<div style="text-align:center; margin:15px 0;">
-
-  <p><strong>📱 Scan & Pay</strong></p>
-
-  <div id="upiQR"></div>
-
-  <p style="font-size:13px;">
-    Scan QR using any UPI App
-  </p>
-<input
-  type="text"
-  id="utrNumber"
-  placeholder="Enter UPI Transaction ID / UTR"
-  style="width:100%; padding:10px; margin:10px 0;">
-
-<button
-  type="button"
-  onclick="submitPaymentProof()"
-  class="submit-btn">
-  ✅ I Have Paid
-</button>
+<section class="section" id="services">
+<h2>Our Services</h2>
+<div class="cards">
+<div class="card"><h3>🖼️ Photo Frames</h3><p>Custom size photo frames for home, gifts and special occasions.</p></div>
+<div class="card"><h3>🖨️ Printing</h3><p>Photo and document printing services.</p></div>
+<div class="card"><h3>💍 Wedding Albums</h3><p>Wedding and pre-wedding album design.</p></div>
+<div class="card"><h3>🎨 Photo Editing</h3><p>Professional photo editing and creative designs.</p></div>
 </div>
-  <a
-    id="upiButton"
-    href="#"
-    onclick="return payUPI();"
-    class="submit-btn"
-    style="display:inline-block; text-decoration:none;">
-    💳 Pay ₹0 via UPI
-  </a>
+</section>
 
-  <p style="font-size:13px;">
-    UPI ID: manipressmedia-2@okaxis
-  </p>
 
+<section class="section" id="experience">
+<h2>Our Experience</h2>
+<div class="cards">
+  <div class="card">
+    <h3>⭐ Shivamani Frames</h3>
+    <p>Professional photo framing, printing, photo editing and album design services.</p>
+    <div class="price">Since 12 March 2025</div>
+  </div>
+  <div class="card">
+    <h3>🏆 Growing Experience</h3>
+    <p>Serving customers with quality work and creative photo products.</p>
+    <div class="price">1+ Year Experience</div>
+  </div>
 </div>
-
-    
-
 </section>
 
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-
-    <h2 class="section-title">
-        📞 Contact Us
-    </h2>
-
-    <p>🏪 <strong>Shivamani Frames</strong></p>
-
-    <p>📍 Jammanahalli, Harur, Tamil Nadu</p>
-
-    <p>
-        📱 6383636141
-    </p>
-
-    <p>
-        📱 9486950141
-    </p>
-
-    <br>
-
-    <a class="btn whatsapp"
-       href="https://wa.me/916383636141"
-       target="_blank">
-        Chat on WhatsApp
-    </a>
-
+<section class="section" id="prices">
+<h2>Frame Price List</h2>
+<div class="cards">
+<div class="card"><h3>4 × 4</h3><p>1" Frame</p><div class="price">₹100</div></div>
+<div class="card"><h3>6 × 4</h3><p>1" Frame</p><div class="price">₹150</div></div>
+<div class="card"><h3>6 × 8</h3><p>1" Frame</p><div class="price">₹250</div></div>
+<div class="card"><h3>10 × 8</h3><p>1" Frame</p><div class="price">₹400</div></div>
+<div class="card"><h3>12 × 8</h3><p>1" Frame</p><div class="price">₹600</div></div>
+<div class="card"><h3>12 × 10</h3><p>1" Frame</p><div class="price">₹700</div></div>
+<div class="card"><h3>12 × 15</h3><p>1" Frame</p><div class="price">₹850</div></div>
+<div class="card"><h3>12 × 18</h3><p>1" Frame</p><div class="price">₹1200</div></div>
+<div class="card"><h3>12 × 24</h3><p>1" Frame</p><div class="price">₹1800</div></div>
+<div class="card"><h3>16 × 20</h3><p>1" Frame</p><div class="price">₹2200</div></div>
+<div class="card"><h3>16 × 24</h3><p>1" Frame</p><div class="price">₹2500</div></div>
+<div class="card"><h3>20 × 24</h3><p>1" Frame</p><div class="price">₹3000</div></div>
+<div class="card"><h3>20 × 24</h3><p>1.5" Frame</p><div class="price">₹3200</div></div>
+<div class="card"><h3>20 × 24</h3><p>2" Frame</p><div class="price">₹3500</div></div>
+<div class="card"><h3>20 × 30</h3><p>1.5" Frame</p><div class="price">₹4000</div></div>
+<div class="card"><h3>20 × 30</h3><p>2" Frame</p><div class="price">₹4500</div></div>
+</div>
 </section>
 
+<section class="section" id="payment">
+<h2>UPI Payment Scanner</h2>
+<div class="payment-box">
+<img src="logo.png" alt="Shivamani Frames UPI QR Scanner">
+<div>
+<h3>Scan & Pay</h3>
+<p class="upi">manipressmedia-2@okaxis</p>
+<p class="small">Payment options: <strong>UPI</strong> or <strong>Pay at Shop</strong>.<br>Scan this QR using Google Pay, PhonePe or any UPI app.</p>
+</div>
+</div>
+</section>
 
-<!-- FOOTER -->
+<section class="section" id="order">
+<h2>Online Order</h2>
+<div class="order-wrap">
+<form id="orderForm">
+<div class="row">
+<div><label for="customerName">Customer Name *</label><input id="customerName" required placeholder="Enter your name"></div>
+<div><label for="customerPhone">Mobile Number *</label><input id="customerPhone" required inputmode="numeric" maxlength="10" placeholder="10 digit mobile number"></div>
+</div>
+<label for="customerAddress">Delivery / Contact Address *</label>
+<textarea id="customerAddress" required placeholder="Enter your address"></textarea>
+<div class="row">
+<div>
+<label for="product">Frame Size *</label>
+<select id="product" required>
+<option value="">Select frame size</option>
+<option data-price="100" value="4 × 4">4 × 4 - ₹100</option>
+<option data-price="150" value="6 × 4">6 × 4 - ₹150</option>
+<option data-price="250" value="6 × 8">6 × 8 - ₹250</option>
+<option data-price="400" value="10 × 8">10 × 8 - ₹400</option>
+<option data-price="600" value="12 × 8">12 × 8 - ₹600</option>
+<option data-price="700" value="12 × 10">12 × 10 - ₹700</option>
+<option data-price="850" value="12 × 15">12 × 15 - ₹850</option>
+<option data-price="1200" value="12 × 18">12 × 18 - ₹1200</option>
+<option data-price="1800" value="12 × 24">12 × 24 - ₹1800</option>
+<option data-price="2200" value="16 × 20">16 × 20 - ₹2200</option>
+<option data-price="2500" value="16 × 24">16 × 24 - ₹2500</option>
+<option data-price="3000" value="20 × 24 - 1 inch">20 × 24 - 1" - ₹3000</option>
+<option data-price="3200" value="20 × 24 - 1.5 inch">20 × 24 - 1.5" - ₹3200</option>
+<option data-price="3500" value="20 × 24 - 2 inch">20 × 24 - 2" - ₹3500</option>
+<option data-price="4000" value="20 × 30 - 1.5 inch">20 × 30 - 1.5" - ₹4000</option>
+<option data-price="4500" value="20 × 30 - 2 inch">20 × 30 - 2" - ₹4500</option>
+</select>
+</div>
+<div>
+<label for="frame">Frame Type *</label>
+<select id="frame" required>
+<option value="">Select frame</option>
+<option>Wooden Frame</option>
+<option>Classic Frame</option>
+<option>Premium Frame</option>
+<option>Customer Choice</option>
+</select>
+</div>
+</div>
+<div class="row">
+<div><label for="quantity">Quantity *</label><input id="quantity" type="number" min="1" value="1" required></div>
+<div><label for="payment">Payment Method *</label><select id="payment" required><option value="">Select payment</option><option>UPI</option><option>Pay at Shop</option></select></div>
+</div>
+<label for="message">Additional Message</label>
+<textarea id="message" placeholder="Any special request?"></textarea>
+<label for="customerPhoto">Upload Photo *</label>
+<input id="customerPhoto" type="file" accept="image/*" required>
+<p class="small">Please select one clear photo. Maximum 8 MB.</p>
+<div class="total"><span>Total Amount</span><strong>₹<span id="totalAmount">0</span></strong></div>
+<div id="status" class="status"></div>
+<button id="placeOrderBtn" class="btn" type="submit" style="width:100%;font-size:17px">🛒 Place Order</button>
+</form>
+</div>
+</section>
+
+<section class="section" id="contact">
+<h2>Contact & Address</h2>
+<div class="address-box">
+<p>📍 <strong>Address</strong></p>
+<p>Jammanahalli | Harur | Tamil Nadu</p>
+<p>📸 Instagram: <a style="color:#ffd76a" href="https://www.instagram.com/shivamani_frames?stkn=bGZ0cGx1cmt4MDZx" target="_blank" rel="noopener">@shivamani_frames</a></p>
+<p>💳 UPI ID: <strong>manipressmedia-2@okaxis</strong></p>
+</div>
+</section>
+</main>
+
 <footer>
-
-    <p>
-        © 2026 Shivamani Frames. All Rights Reserved.
-    </p>
-
-    <p>
-        Photo Frames • Printing • Album Design
-    </p>
-
+<strong>© 2026 Shivamani Frames. All Rights Reserved.</strong>
+<p>Frames for a Brighter Tomorrow</p>
 </footer>
 
-
-<!-- WHATSAPP ORDER SCRIPT -->
 <script>
-const GOOGLE_SCRIPT_URL =
-https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec
-  async function sendWebsiteOrder() {
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec";
+const WHATSAPP_NUMBER="REPLACE_WITH_YOUR_WHATSAPP_NUMBER";
 
-    const name =
-        document.getElementById("customerName").value.trim();
+const form=document.getElementById("orderForm");
+const product=document.getElementById("product");
+const quantity=document.getElementById("quantity");
+const totalAmount=document.getElementById("totalAmount");
+const statusBox=document.getElementById("status");
+const button=document.getElementById("placeOrderBtn");
+const countBox=document.getElementById("orderCount");
 
-    const phone =
-        document.getElementById("customerPhone").value.trim();
-
-    const address =
-        document.getElementById("customerAddress").value.trim();
-
-    const product =
-        document.getElementById("product").value;
-
-    const quantity =
-        document.getElementById("quantity").value;
-
-    const message =
-        document.getElementById("message").value.trim();
-
-    const photoInput =
-        document.getElementById("customerPhoto");
-
-    if (!name || !phone || !address || !product) {
-        alert("Please fill Name, Mobile Number, Address and Product.");
-        return;
-    }
-
-    if (!photoInput.files || !photoInput.files[0]) {
-        alert("Please upload your photo.");
-        return;
-    }
-
-    const photoFile = photoInput.files[0];
-
-    const photoBase64 = await new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            resolve(reader.result);
-        };
-
-        reader.onerror = function () {
-            reject(new Error("Photo reading failed"));
-        };
-
-        reader.readAsDataURL(photoFile);
-    });
-
-    const orderData = {
-        name: name,
-        mobile: phone,
-        address: address,
-        product: product,
-        quantity: quantity,
-        message: message,
-        photo: photoBase64
-    };
-
-   const response = await fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(orderData)
-});
-
-    alert("✅ Your order has been submitted successfully!");
+function calculateTotal(){
+ const option=product.options[product.selectedIndex];
+ const price=Number(option?.dataset?.price||0);
+ const qty=Math.max(1,Number(quantity.value||1));
+ totalAmount.textContent=(price*qty).toLocaleString("en-IN");
+ return price*qty;
 }
-async function sendOrder() {
-
-    const name =
-        document.getElementById("customerName").value.trim();
-
-    const phone =
-        document.getElementById("customerPhone").value.trim();
-
-    const address =
-        document.getElementById("customerAddress").value.trim();
-
-    const product =
-        document.getElementById("product").value;
-
-    const quantity =
-        document.getElementById("quantity").value;
-
-    const message =
-        document.getElementById("message").value.trim();
-
-    const photoInput =
-        document.getElementById("customerPhoto");
-
-
-    // REQUIRED DETAILS
-    if (!name || !phone || !address || !product || !quantity) {
-
-        alert("⚠️ Please fill all required order details.");
-
-        return;
-    }
-
-
-    // PHOTO CHECK
-    if (
-        !photoInput ||
-        !photoInput.files ||
-        photoInput.files.length === 0
-    ) {
-
-        alert("⚠️ Please upload your photo.");
-
-        return;
-    }
-
-
-    const photoFile = photoInput.files[0];
-
-
-    // READ PHOTO
-    const photoBase64 = await new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            resolve(reader.result);
-        };
-
-        reader.onerror = function () {
-            reject(new Error("Photo reading failed"));
-        };
-
-        reader.readAsDataURL(photoFile);
-
-    });
-
-
-    // ORDER DATA
-    const orderData = {
-
-        name: name,
-
-        mobile: phone,
-
-        address: address,
-
-        product: product,
-
-        quantity: quantity,
-
-        message: message,
-
-        photo: photoBase64
-
-    };
-
-
-    try {
-
-        alert("⏳ Uploading photo... Please wait.");
-
-
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-
-            body: JSON.stringify(orderData)
-
-        });
-
-
-        const result = await response.json();
-
-
-        if (!result.success) {
-
-            alert(
-                "❌ Order failed.\n" +
-                (result.error || "Please try again.")
-            );
-
-            return;
-        }
-
-
-        // GOOGLE DRIVE PHOTO LINK
-        const photoUrl = result.photoUrl || "";
-
-
-        // WHATSAPP NUMBER
-        const whatsappNumber = "916383636141";
-
-
-        // WHATSAPP MESSAGE
-        const text =
-
-            "🛒 *NEW ORDER - SHIVAMANI FRAMES*\n\n" +
-
-            "👤 Name: " + name + "\n" +
-
-            "📱 Phone: " + phone + "\n" +
-
-            "📍 Address: " + address + "\n" +
-
-            "🖼️ Product: " + product + "\n" +
-
-            "🔢 Quantity: " + quantity + "\n" +
-
-            "📝 Message: " +
-            (message || "No additional requirements") +
-            "\n\n" +
-
-            "📸 *Customer Photo:*\n" +
-
-            (photoUrl || "Photo link not available");
-
-
-        const url =
-
-            "https://wa.me/" +
-
-            whatsappNumber +
-
-            "?text=" +
-
-            encodeURIComponent(text);
-
-
-        window.open(url, "_blank");
-
-
-        alert("✅ Order submitted successfully!");
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "❌ Order could not be sent.\n\n" +
-            error.message
-        );
-
-    }
-
+product.addEventListener("change",calculateTotal);
+quantity.addEventListener("input",calculateTotal);
+
+function showStatus(message,error=false){
+ statusBox.textContent=message;
+ statusBox.className="status"+(error?" error":"");
+ statusBox.style.display="block";
 }
-    const startDate = new Date("2025-03-12");
-
-function updateYears() {
-    const today = new Date();
-
-    let years =
-        today.getFullYear() - startDate.getFullYear();
-
-    if (
-        today.getMonth() < startDate.getMonth() ||
-        (
-            today.getMonth() === startDate.getMonth() &&
-            today.getDate() < startDate.getDate()
-        )
-    ) {
-        years--;
-    }
-
-    document.getElementById("yearsCount").textContent =
-        years + "+";
+function fileToBase64(file){
+ return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onload=()=>resolve(reader.result);
+  reader.onerror=()=>reject(new Error("Photo reading failed"));
+  reader.readAsDataURL(file);
+ });
 }
-
-updateYears();
-// UPI PAYMENT
-function updateUPIAmount() {
-
-  const product =
-    document.getElementById("product").value;
-
-  const quantity =
-    parseInt(document.getElementById("quantity").value) || 1;
-
-  const priceMatch =
-    product.match(/₹\s*([\d,]+)/);
-
-  let price = 0;
-
-  if (priceMatch) {
-    price = parseInt(priceMatch[1].replace(/,/g, ""));
-  }
-
-  const total = price * quantity;
-
-  document.getElementById("upiAmount").textContent = total;
-
-  document.getElementById("upiButton").textContent =
-    "💳 Pay ₹" + total + " via UPI";
-    const upiQR = document.getElementById("upiQR");
-
-upiQR.innerHTML = "";
-
-if (total > 0) {
-
-  const upiURL =
-    "upi://pay?pa=manipressmedia-2@okaxis" +
-    "&pn=Shivamani%20Frames" +
-    "&am=" + total +
-    "&cu=INR";
-
-  new QRCode(upiQR, {
-    text: upiURL,
-    width: 180,
-    height: 180
-  });
+function makeOrderId(){
+ const d=new Date();
+ return "SF-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(d.getHours()).padStart(2,"0")+String(d.getMinutes()).padStart(2,"0")+String(d.getSeconds()).padStart(2,"0");
 }
+function openWhatsApp(order){
+ if(!WHATSAPP_NUMBER||WHATSAPP_NUMBER==="REPLACE_WITH_YOUR_WHATSAPP_NUMBER") return false;
+ const text=`🖼️ *SHIVAMANI FRAMES - NEW ORDER*
+
+Order ID: ${order.orderId}
+Name: ${order.name}
+Mobile: ${order.mobile}
+Size: ${order.size}
+Frame: ${order.frame}
+Quantity: ${order.quantity}
+Amount: ₹${order.amount}
+Payment: ${order.payment}
+
+Address:
+${order.address}
+
+Message:
+${order.message||"None"}
+
+Photo: Uploaded on website`;
+ window.open("https://wa.me/"+WHATSAPP_NUMBER.replace(/\D/g,"")+"?text="+encodeURIComponent(text),"_blank");
+ return true;
 }
-
-
-function payUPI() {
-
-  const amount =
-    document.getElementById("upiAmount").textContent;
-
-  if (amount === "0") {
-    alert("Please select a frame size first.");
-    return;
-  }
-
-  const upiURL =
-    "upi://pay" +
-    "?pa=manipressmedia-2@okaxis" +
-    "&pn=Shivamani%20Frames" +
-    "&am=" + amount +
-    "&cu=INR";
-
-  window.location.href = upiURL;
+async function sendOrder(order){
+ await fetch(GOOGLE_SCRIPT_URL,{
+  method:"POST",
+  mode:"no-cors",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify(order)
+ });
 }
+form.addEventListener("submit",async function(e){
+ e.preventDefault();
+ statusBox.style.display="none";
+ const name=document.getElementById("customerName").value.trim();
+ const mobile=document.getElementById("customerPhone").value.trim();
+ const address=document.getElementById("customerAddress").value.trim();
+ const frame=document.getElementById("frame").value;
+ const qty=Math.max(1,Number(quantity.value||1));
+ const payment=document.getElementById("payment").value;
+ const message=document.getElementById("message").value.trim();
+ const photoInput=document.getElementById("customerPhoto");
 
+ if(!/^\d{10}$/.test(mobile)){showStatus("Please enter a valid 10 digit mobile number.",true);return;}
+ if(!product.value||!frame||!payment){showStatus("Please select all required order details.",true);return;}
+ if(!photoInput.files?.[0]){showStatus("Please upload your photo.",true);return;}
+ const photoFile=photoInput.files[0];
+ if(!photoFile.type.startsWith("image/")){showStatus("Please select an image file.",true);return;}
+ if(photoFile.size>8*1024*1024){showStatus("Photo must be smaller than 8 MB.",true);return;}
 
-// Product change
-document.getElementById("product")
-  .addEventListener("change", updateUPIAmount);
-
-
-// Quantity change
-document.getElementById("quantity")
-  .addEventListener("input", updateUPIAmount);
-
-
-// Initial amount
-updateUPIAmount();
- function submitPaymentProof() {
-
-  const utr =
-    document.getElementById("utrNumber").value.trim();
-
-  if (utr === "") {
-    alert("Please enter UPI Transaction ID / UTR.");
-    return;
-  }
-
-  const name =
-    document.getElementById("customerName").value;
-
-  const phone =
-    document.getElementById("customerPhone").value;
-
-  const product =
-    document.getElementById("product").value;
-
-  const quantity =
-    document.getElementById("quantity").value;
-
-  if (name === "" || phone === "" || product === "") {
-    alert("Please fill customer details and select product.");
-    return;
-  }
-
-  const paymentData = {
-    customerName: name,
-    mobile: phone,
-    product: product,
-    quantity: quantity,
-    utr: utr,
-    paymentStatus: "Pending Verification"
+ const amount=calculateTotal();
+ const orderId=makeOrderId();
+ button.disabled=true;
+ button.textContent="⏳ Sending Order...";
+ try{
+  const photoBase64=await fileToBase64(photoFile);
+  const order={
+   orderId:orderId,date:new Date().toISOString(),
+   name:name,mobile:mobile,address:address,
+   size:product.value,product:product.value,frame:frame,
+   quantity:qty,amount:amount,message:message,payment:payment,
+   photo:photoBase64
   };
-
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain"
-    },
-    body: JSON.stringify(paymentData)
-  });
-
-  alert(
-    "✅ Payment details submitted!\n\n" +
-    "Payment Status: Pending Verification\n" +
-    "UTR: " + utr
-  );
-}   
-</script>
-<script>
-const startDate = new Date(2025, 2, 12); // 12-03-2025
-
-function updateYearsExperience() {
-    const today = new Date();
-
-    let years = today.getFullYear() - startDate.getFullYear();
-
-    const anniversary = new Date(
-        today.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate()
-    );
-
-    if (today < anniversary) {
-        years--;
-    }
-
-    document.getElementById("yearsCount").textContent = years + "+";
+  await sendOrder(order);
+  const localCount=Number(localStorage.getItem("shivamaniOrderCount")||"0")+1;
+  localStorage.setItem("shivamaniOrderCount",localCount);
+  countBox.textContent=localCount;
+  showStatus("✅ Order submitted. Order ID: "+orderId);
+  openWhatsApp(order);
+  form.reset();
+  quantity.value=1;
+  totalAmount.textContent="0";
+ }catch(error){
+  console.error(error);
+  showStatus("❌ Order failed. Please try again.",true);
+ }finally{
+  button.disabled=false;
+  button.textContent="🛒 Place Order";
+ }
+});
+async function loadOrderCount(){
+ const local=Number(localStorage.getItem("shivamaniOrderCount")||"0");
+ countBox.textContent=local;
+ try{
+  const r=await fetch(GOOGLE_SCRIPT_URL+"?action=count",{cache:"no-store"});
+  if(!r.ok)return;
+  const data=await r.json();
+  if(data?.success&&Number.isFinite(Number(data.orderCount))){
+   countBox.textContent=Number(data.orderCount);
+   localStorage.setItem("shivamaniOrderCount",String(data.orderCount));
+  }
+ }catch(e){console.log("Count refresh unavailable",e)}
 }
-
-updateYearsExperience();
+calculateTotal();
+loadOrderCount();
 </script>
 </body>
-              </html>
+</html>
