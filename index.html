@@ -97,6 +97,10 @@ button:disabled{opacity:.65;cursor:not-allowed}
   <div class="count">📦 Total Orders: <strong id="orderCount">0</strong></div>
 </section>
 
+<section class="section" id="experience" style="padding-top:18px;padding-bottom:18px;">
+  <div id="experienceYears" style="text-align:center;font-size:22px;font-weight:800;color:#7b1744;">1+ Year Experience</div>
+</section>
+
 <section class="section" id="services">
 <h2>Our Services</h2>
 <div class="cards">
@@ -104,14 +108,6 @@ button:disabled{opacity:.65;cursor:not-allowed}
 <div class="card"><h3>🖨️ Printing</h3><p>Photo and document printing services.</p></div>
 <div class="card"><h3>💍 Wedding Albums</h3><p>Wedding and pre-wedding album design.</p></div>
 <div class="card"><h3>🎨 Photo Editing</h3><p>Professional photo editing and creative designs.</p></div>
-</div>
-</section>
-
-<section class="section" id="experience">
-<div class="experience-center">
-  <h3>🏆 Shivamani Frames</h3>
-  <p>Professional photo framing, printing, photo editing and album design services.</p>
-  <div class="price" id="experienceYears">Calculating...</div>
 </div>
 </section>
 
@@ -238,6 +234,7 @@ button:disabled{opacity:.65;cursor:not-allowed}
 </footer>
 
 <script>
+// Shivamani Frames - Updated Order System v2
 "use strict";
 
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec";
@@ -487,4 +484,4 @@ form.addEventListener("submit",async function(e){
     totalAmount.textContent="0";
     clearErrors();
 
-    // Refre
+    // Refresh c
