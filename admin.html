@@ -3,83 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Shivamani Frames - Admin Orders</title>
-
 <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f5f5f5;
-    color: #222;
-}
-
-header {
-    background: #111;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-.container {
-    padding: 20px;
-}
-
-h2 {
-    text-align: center;
-}
-
-.order-box {
-    background: white;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-}
-
-.empty {
-    text-align: center;
-    color: #777;
-    padding: 30px;
-}
-
-.back-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #25D366;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:#f5f5f5;color:#222}
+header{background:#111;color:#fff;padding:18px;text-align:center}
+header img{height:45px;vertical-align:middle;margin-right:10px}
+.container{max-width:1100px;margin:auto;padding:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.count{background:#111;color:#fff;padding:10px 16px;border-radius:20px}
+.refresh{border:0;background:#16a34a;color:#fff;padding:11px 18px;border-radius:8px;cursor:pointer;font-weight:bold}
+.order-box{background:#fff;padding:18px;margin-top:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.order-card{border:1px solid #ddd;border-radius:12px;padding:18px;margin-bottom:15px;background:#fff}
+.order-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:12px}
+.order-id{font-weight:bold;color:#7b1744}
+.amount{font-size:20px;font-weight:bold;color:#16a34a}
+.details{line-height:1.7}
+.photo{max-width:180px;max-height:180px;object-fit:cover;border-radius:10px;margin-top:10px;border:1px solid #ddd}
+.photo-btn{display:inline-block;margin-top:10px;padding:9px 14px;background:#2563eb;color:#fff;border-radius:7px;text-decoration:none}
+.empty{text-align:center;color:#777;padding:35px}
+.loading{text-align:center;padding:30px}
+.back-btn{display:inline-block;margin-top:20px;padding:12px 20px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px}
+.error{background:#fee2e2;color:#991b1b;padding:15px;border-radius:10px}
+@media(max-width:600px){.container{padding:12px}.order-card{padding:14px}}
 </style>
 </head>
-
 <body>
 
 <header>
-   <h1>
-  <img src="logo.png" alt="Shivamani Frames Logo"
-       style="height:45px; vertical-align:middle; margin-right:10px;">
-  Shivamani Frames
+<h1>
+<img src="logo.png" alt="Shivamani Frames Logo">
+Shivamani Frames
 </h1>
 </header>
 
 <div class="container">
-
-    <h2>🛒 Website Orders</h2>
-
-    <div class="order-box">
-        <div class="empty">
-            No orders yet
-        </div>
-    </div>
-
-    <a href="index.html" class="back-btn">
-        ← Back to Website
-    </a>
-
+<div class="topbar">
+<h2>🛒 Website Orders</h2>
+<div>
+<span class="count">Total Orders: <strong id="orderCount">0</strong></span>
+<button class="refresh" onclick="loadOrders()">🔄 Refresh</button>
+</div>
 </div>
 
+<div class="order-box">
+<div id="orders"><div class="loading">⏳ Loading orders...</div></div>
+</div>
+
+<a href="index.html" class="back-btn">← Back to Website</a>
+</div>
+
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec";
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function loadOrders(){
+  document.getElementById("orders").innerHTML =
+    '<div class="loading">⏳ Loading orders...</div>';
+
+  const callbackName="ordersCallback_"+Date.now();
+
+  window[callbackName]=function(data){
+    try{
+      if(!data.success) throw new Error(data.error || "Unable to load orders");
+
+      const orders=data.orders || [];
+      document.getElementById("orderCount").textContent=orders.length;
+
+      if(orders.length===0){
+        document.getElementById("orders").innerHTML=
+          '<div class="empty">📦 No orders yet</div>';
+        return;
+      }
+
+      let html="";
+
+      orders.slice().reverse().forEach(order=>{
+        const date=order.date ? new Date(order.date).toLocaleString("en-IN") : "";
+
+        html += `
+        <div class="order-card">
+          <div class="order-head">
+            <div class="order-id">🆔 ${escapeHTML(order.orderId)}</div>
+            <div class="amount">₹${escapeHTML(order.amount)}</div>
+          </div>
+
+          <div class="details">
+            <strong>👤 Customer:</strong> ${escapeHTML(order.name)}<br>
+            <strong>📱 Mobile:</strong> ${escapeHTML(order.mobile)}<br>
+            <strong>🖼️ Size:</strong> ${escapeHTML(order.size)}<br>
+            <strong>🎯 Occasion:</strong> ${escapeHTML(order.frame)}<br>
+            <strong>🔢 Quantity:</strong> ${escapeHTML(order.quantity)}<br>
+            <strong>💳 Payment:</strong> ${escapeHTML(order.payment)}<br>
+            <strong>📍 Address:</strong> ${escapeHTML(order.address)}<br>
+            <strong>📝 Message:</strong> ${escapeHTML(order.message || "None")}<br>
+            <strong>📅 Date:</strong> ${escapeHTML(date)}
+
+            ${order.photoUrl ? `
+              <br>
+              <a class="photo-btn" href="${escapeHTML(order.photoUrl)}" target="_blank">
+                📷 View Customer Photo
+              </a>` : ""}
+          </div>
+        </div>`;
+      });
+
+      document.getElementById("orders").innerHTML=html;
+
+    }catch(error){
+      document.getElementById("orders").innerHTML=
+        '<div class="error">❌ '+escapeHTML(error.message)+'</div>';
+    }
+
+    delete window[callbackName];
+    if(script.parentNode) script.remove();
+  };
+
+  const script=document.createElement("script");
+  script.src=GOOGLE_SCRIPT_URL+
+    "?action=orders&callback="+callbackName+"&t="+Date.now();
+
+  script.onerror=function(){
+    document.getElementById("orders").innerHTML=
+      '<div class="error">❌ Unable to connect to Google Sheet.</div>';
+    delete window[callbackName];
+    script.remove();
+  };
+
+  document.body.appendChild(script);
+}
+
+loadOrders();
+</script>
 </body>
 </html>
