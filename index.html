@@ -10,7 +10,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#222}
 a{text-decoration:none;color:inherit}
-header{position:sticky;top:0;z-index:100;background:#000;border-bottom:1px solid #333;backdrop-filter:blur(10px)}
+header{position:sticky;top:0;z-index:100;background:#000;border-bottom:1px solid #333}
 .nav{max-width:1150px;margin:auto;padding:10px 16px;display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .brand img{width:58px;height:42px;object-fit:cover;border-radius:7px;border:1px solid #d6a928}
@@ -43,12 +43,15 @@ textarea{min-height:90px;resize:vertical}
 .status{display:none;margin:15px 0;padding:13px;border-radius:10px;background:#12351f;border:1px solid #1e8d4d;color:#bff5d0}
 .status.error{background:#3a1515;border-color:#a33;color:#ffd0d0}
 .status.info{background:#1a2438;border-color:#4169a1;color:#dbe8ff}
+.status.success{background:#12351f;border-color:#22c55e;color:#d1fae5}
 .payment-box{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center;max-width:650px;margin:auto;background:#fff;border:1px solid #ead7df;border-radius:18px;padding:20px;box-shadow:0 4px 15px rgba(80,30,50,.07)}
 .payment-box img{width:160px;height:160px;background:#fff;padding:8px;border-radius:12px}
 .upi{font-size:18px;font-weight:800;color:#7b1744;word-break:break-all}
 .address-box{max-width:800px;margin:auto;text-align:center;padding:20px;border-radius:16px;background:#000;color:#fff;border:1px solid #222}
 .address-box strong{color:#f7c6d9}
 .count{display:inline-flex;gap:8px;align-items:center;margin:16px auto;padding:10px 16px;border-radius:30px;background:#fff;border:1px solid #e1b4c7;color:#5b2340}
+.success-card{display:none;margin:18px 0;padding:18px;border-radius:14px;background:#ecfdf5;border:1px solid #22c55e;color:#14532d;text-align:center}
+.success-card strong{font-size:20px}
 footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#fff;border-top:1px solid #222}
 .small{font-size:13px;color:#777}
 button:disabled{opacity:.65;cursor:not-allowed}
@@ -98,7 +101,7 @@ button:disabled{opacity:.65;cursor:not-allowed}
 </section>
 
 <section class="section" id="experience" style="padding-top:18px;padding-bottom:18px;">
-  <div id="experienceYears" style="text-align:center;font-size:22px;font-weight:800;color:#7b1744;">1+ Year Experience</div>
+  <div style="text-align:center;font-size:22px;font-weight:800;color:#7b1744;">1+ Year Experience</div>
 </section>
 
 <section class="section" id="services">
@@ -136,11 +139,12 @@ button:disabled{opacity:.65;cursor:not-allowed}
 <section class="section" id="payment">
 <h2>UPI Payment Scanner</h2>
 <div class="payment-box">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi%3A%2F%2Fpay%3Fpa%3Dmanipressmedia-2%40okaxis%26pn%3DShivamani%2520Frames"
+<img id="upiQr" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi%3A%2F%2Fpay%3Fpa%3Dmanipressmedia-2%40okaxis%26pn%3DShivamani%2520Frames"
      alt="UPI Payment QR" style="width:140px;height:140px;object-fit:contain;">
 <div style="margin-left:20px;">
 <h3>Scan & Pay</h3>
 <p class="upi">manipressmedia-2@okaxis</p>
+<p id="qrAmountText" class="small"><strong>Select a frame size to show the exact payment amount in the QR.</strong></p>
 <p class="small">Payment options: <strong>UPI</strong> or <strong>Pay at Shop</strong>.<br>Scan this QR using Google Pay, PhonePe or any UPI app.</p>
 </div>
 </div>
@@ -212,6 +216,12 @@ button:disabled{opacity:.65;cursor:not-allowed}
 
 <div class="total"><span>Total Amount</span><strong>₹<span id="totalAmount">0</span></strong></div>
 <div id="status" class="status"></div>
+
+<div id="successCard" class="success-card">
+  <strong>🎉 Order Successful!</strong>
+  <div id="successDetails" style="margin-top:8px"></div>
+</div>
+
 <button id="placeOrderBtn" class="btn" type="submit" style="width:100%;font-size:17px">🛒 Place Order</button>
 </form>
 </div>
@@ -234,7 +244,6 @@ button:disabled{opacity:.65;cursor:not-allowed}
 </footer>
 
 <script>
-// Shivamani Frames - Updated Order System v2
 "use strict";
 
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyQIyz6K-bt4ERaSd-cU7_i2ElX_QtG-84mVZQ1EGGuBlGiZaJ8SEzoKTIJjIKKoZ41/exec";
@@ -250,25 +259,53 @@ const statusBox=document.getElementById("status");
 const button=document.getElementById("placeOrderBtn");
 const countBox=document.getElementById("orderCount");
 const photoInput=document.getElementById("customerPhoto");
+const upiQr=document.getElementById("upiQr");
+const qrAmountText=document.getElementById("qrAmountText");
+const successCard=document.getElementById("successCard");
+const successDetails=document.getElementById("successDetails");
 
 function calculateTotal(){
   const option=productSelect.options[productSelect.selectedIndex];
   const price=Number(option && option.dataset ? option.dataset.price : 0);
+
   let qty=Number(quantityInput.value);
   if(!Number.isFinite(qty) || qty<1) qty=1;
   if(qty>99) qty=99;
   quantityInput.value=qty;
+
   const total=price*qty;
   totalAmount.textContent=total.toLocaleString("en-IN");
+
+  if(total>0){
+    const upiUrl=
+      "upi://pay"+
+      "?pa="+encodeURIComponent("manipressmedia-2@okaxis")+
+      "&pn="+encodeURIComponent("Shivamani Frames")+
+      "&am="+encodeURIComponent(total.toFixed(2))+
+      "&cu=INR";
+
+    upiQr.src=
+      "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data="+
+      encodeURIComponent(upiUrl);
+
+    qrAmountText.innerHTML=
+      "<strong>Payment Amount: ₹"+total.toLocaleString("en-IN")+
+      "</strong><br>Scan this QR to pay the exact order amount.";
+  }else{
+    qrAmountText.innerHTML=
+      "<strong>Select a frame size to show the exact payment amount in the QR.</strong>";
+  }
+
   return total;
 }
 
 productSelect.addEventListener("change",calculateTotal);
 quantityInput.addEventListener("input",calculateTotal);
+quantityInput.addEventListener("change",calculateTotal);
 
 function showStatus(message,error=false,info=false){
   statusBox.textContent=message;
-  statusBox.className="status"+(error?" error":info?" info":"");
+  statusBox.className="status"+(error?" error":info?" info":" success");
   statusBox.style.display="block";
 }
 
@@ -292,7 +329,8 @@ function fileToBase64(file){
 function makeOrderId(){
   const d=new Date();
   const random=Math.floor(100+Math.random()*900);
-  return "SF-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+
+  return "SF-"+d.getFullYear()+
+    String(d.getMonth()+1).padStart(2,"0")+
     String(d.getDate()).padStart(2,"0")+"-"+
     String(d.getHours()).padStart(2,"0")+
     String(d.getMinutes()).padStart(2,"0")+
@@ -301,7 +339,9 @@ function makeOrderId(){
 
 function openWhatsApp(order){
   if(!WHATSAPP_NUMBER) return false;
-  const text=`🖼️ *SHIVAMANI FRAMES - NEW ORDER*
+
+  const text=
+`🖼️ *SHIVAMANI FRAMES - NEW ORDER*
 
 Order ID: ${order.orderId}
 Name: ${order.name}
@@ -320,7 +360,11 @@ ${order.message||"None"}
 
 Photo: Uploaded on website`;
 
-  const url="https://wa.me/"+WHATSAPP_NUMBER.replace(/\D/g,"")+"?text="+encodeURIComponent(text);
+  const url=
+    "https://wa.me/"+
+    WHATSAPP_NUMBER.replace(/\D/g,"")+
+    "?text="+encodeURIComponent(text);
+
   window.open(url,"_blank","noopener");
   return true;
 }
@@ -330,8 +374,6 @@ async function sendOrder(order){
     throw new Error("Google Script URL is not configured.");
   }
 
-  // Apps Script web apps commonly accept text/plain POST with no-cors.
-  // The response cannot be read in no-cors mode, but the request is sent.
   await fetch(GOOGLE_SCRIPT_URL,{
     method:"POST",
     mode:"no-cors",
@@ -371,10 +413,6 @@ function validateOrder(){
     return false;
   }
 
-  // IMPORTANT FIX:
-  // Use the SELECT elements themselves for validation.
-  // Previously frame was converted to a string and then frame.value was checked,
-  // which made the form fail every time.
   if(!selectedProduct){
     markError(productSelect);
     showStatus("Please select a frame size.",true);
@@ -420,68 +458,31 @@ function validateOrder(){
   return true;
 }
 
-form.addEventListener("submit",async function(e){
-  e.preventDefault();
-  statusBox.style.display="none";
+function loadOrderCount(){
+  const callbackName="ordersCallback_"+Date.now()+"_"+Math.floor(Math.random()*10000);
 
-  if(!validateOrder()) return;
+  window[callbackName]=function(data){
+    try{
+      if(data && data.success){
+        countBox.textContent=Number(data.orderCount||0);
+        localStorage.setItem("shivamaniOrderCount",String(data.orderCount||0));
+      }
+    }finally{
+      delete window[callbackName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+    }
+  };
 
-  const name=document.getElementById("customerName").value.trim();
-  const mobile=document.getElementById("customerPhone").value.replace(/\D/g,"");
-  const address=document.getElementById("customerAddress").value.trim();
-  const selectedFrame=frameSelect.value;
-  const qty=Number(quantityInput.value);
-  const selectedPayment=paymentSelect.value;
-  const message=document.getElementById("message").value.trim();
-  const photoFile=photoInput.files[0];
+  const script=document.createElement("script");
+  script.src=
+    GOOGLE_SCRIPT_URL+
+    "?action=orders&callback="+
+    encodeURIComponent(callbackName)+
+    "&_="+Date.now();
 
-  const amount=calculateTotal();
-  if(amount<=0){
-    showStatus("Please select a valid frame size.",true);
-    return;
-  }
+  script.onerror=function(){
+    delete window[callbackName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  };
 
-  const orderId=makeOrderId();
-  button.disabled=true;
-  button.textContent="⏳ Sending Order...";
-
-  try{
-    showStatus("⏳ Preparing your order...",false,true);
-
-    const photoBase64=await fileToBase64(photoFile);
-
-    const order={
-      orderId:orderId,
-      date:new Date().toISOString(),
-      name:name,
-      mobile:mobile,
-      address:address,
-      size:productSelect.value,
-      product:productSelect.value,
-      frame:selectedFrame,
-      quantity:qty,
-      amount:amount,
-      message:message,
-      payment:selectedPayment,
-      photo:photoBase64
-    };
-
-    await sendOrder(order);
-
-    // Keep a local count as an immediate fallback.
-    const localCount=Number(localStorage.getItem("shivamaniOrderCount")||"0")+1;
-    localStorage.setItem("shivamaniOrderCount",String(localCount));
-    countBox.textContent=localCount;
-
-    showStatus("✅ Order submitted successfully! Order ID: "+orderId);
-
-    // WhatsApp confirmation to owner.
-    openWhatsApp(order);
-
-    // Reset form only after the POST request has been sent.
-    form.reset();
-    quantityInput.value=1;
-    totalAmount.textContent="0";
-    clearErrors();
-
-    // Refresh c
+  document.body.appendChild(s
