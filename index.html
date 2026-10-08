@@ -52,6 +52,9 @@ textarea{min-height:90px;resize:vertical}
 .count{display:inline-flex;gap:8px;align-items:center;margin:16px auto;padding:10px 16px;border-radius:30px;background:#fff;border:1px solid #e1b4c7;color:#5b2340}
 .success-card{display:none;margin:18px 0;padding:18px;border-radius:14px;background:#ecfdf5;border:1px solid #22c55e;color:#14532d;text-align:center}
 .success-card strong{font-size:20px}
+.order-qr-box{display:none;margin:16px 0;padding:16px;border:1px solid #ead7df;border-radius:14px;background:#fff;text-align:center}
+.order-qr-box img{width:190px;height:190px;object-fit:contain;border:8px solid #fff;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.order-qr-box .qr-pay-amount{font-size:20px;font-weight:800;color:#7b1744;margin:8px 0}
 footer{margin-top:0;padding:30px 16px;text-align:center;background:#000;color:#fff;border-top:1px solid #222}
 .small{font-size:13px;color:#777}
 button:disabled{opacity:.65;cursor:not-allowed}
@@ -207,6 +210,13 @@ button:disabled{opacity:.65;cursor:not-allowed}
 <div><label for="payment">Payment Method *</label><select id="payment" required><option value="">Select payment</option><option value="UPI">UPI</option><option value="Pay at Shop">Pay at Shop</option></select></div>
 </div>
 
+<div id="orderQrBox" class="order-qr-box">
+  <div style="font-weight:800;color:#7b1744;font-size:18px">📱 Scan & Pay</div>
+  <img id="orderUpiQr" alt="Order UPI QR">
+  <div id="orderQrAmount" class="qr-pay-amount">Payment Amount: ₹0</div>
+  <div class="small">UPI ID: manipressmedia-2@okaxis</div>
+</div>
+
 <label for="message">Additional Message</label>
 <textarea id="message" placeholder="Any special request?"></textarea>
 
@@ -263,6 +273,33 @@ const upiQr=document.getElementById("upiQr");
 const qrAmountText=document.getElementById("qrAmountText");
 const successCard=document.getElementById("successCard");
 const successDetails=document.getElementById("successDetails");
+const orderQrBox=document.getElementById("orderQrBox");
+const orderUpiQr=document.getElementById("orderUpiQr");
+const orderQrAmount=document.getElementById("orderQrAmount");
+
+function updateOrderQr(total){
+  if(!orderQrBox || !orderUpiQr || !orderQrAmount) return;
+
+  if(paymentSelect.value === "UPI" && total > 0){
+    const upiUrl =
+      "upi://pay" +
+      "?pa=" + encodeURIComponent("manipressmedia-2@okaxis") +
+      "&pn=" + encodeURIComponent("Shivamani Frames") +
+      "&am=" + encodeURIComponent(total.toFixed(2)) +
+      "&cu=INR";
+
+    orderUpiQr.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+      encodeURIComponent(upiUrl) +
+      "&_=" + Date.now();
+
+    orderQrAmount.textContent =
+      "Payment Amount: ₹" + total.toLocaleString("en-IN");
+    orderQrBox.style.display = "block";
+  } else {
+    orderQrBox.style.display = "none";
+  }
+}
 
 function calculateTotal(){
   const option=productSelect.options[productSelect.selectedIndex];
@@ -296,12 +333,14 @@ function calculateTotal(){
       "<strong>Select a frame size to show the exact payment amount in the QR.</strong>";
   }
 
+  updateOrderQr(total);
   return total;
 }
 
 productSelect.addEventListener("change",calculateTotal);
 quantityInput.addEventListener("input",calculateTotal);
 quantityInput.addEventListener("change",calculateTotal);
+paymentSelect.addEventListener("change",calculateTotal);
 
 function showStatus(message,error=false,info=false){
   statusBox.textContent=message;
@@ -419,70 +458,4 @@ function validateOrder(){
     return false;
   }
 
-  if(!selectedFrame){
-    markError(frameSelect);
-    showStatus("Please select a frame type / occasion.",true);
-    return false;
-  }
-
-  if(!Number.isInteger(qty) || qty<1 || qty>99){
-    markError(quantityInput);
-    showStatus("Quantity must be between 1 and 99.",true);
-    return false;
-  }
-
-  if(!selectedPayment){
-    markError(paymentSelect);
-    showStatus("Please select a payment method.",true);
-    return false;
-  }
-
-  if(!photo){
-    markError(photoInput);
-    showStatus("Please upload your photo.",true);
-    return false;
-  }
-
-  if(!photo.type.startsWith("image/")){
-    markError(photoInput);
-    showStatus("Please select an image file.",true);
-    return false;
-  }
-
-  if(photo.size>8*1024*1024){
-    markError(photoInput);
-    showStatus("Photo must be smaller than 8 MB.",true);
-    return false;
-  }
-
-  return true;
-}
-
-function loadOrderCount(){
-  const callbackName="ordersCallback_"+Date.now()+"_"+Math.floor(Math.random()*10000);
-
-  window[callbackName]=function(data){
-    try{
-      if(data && data.success){
-        countBox.textContent=Number(data.orderCount||0);
-        localStorage.setItem("shivamaniOrderCount",String(data.orderCount||0));
-      }
-    }finally{
-      delete window[callbackName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-    }
-  };
-
-  const script=document.createElement("script");
-  script.src=
-    GOOGLE_SCRIPT_URL+
-    "?action=orders&callback="+
-    encodeURIComponent(callbackName)+
-    "&_="+Date.now();
-
-  script.onerror=function(){
-    delete window[callbackName];
-    if(script.parentNode) script.parentNode.removeChild(script);
-  };
-
-  document.body.appendChild(s
+  if(!select
