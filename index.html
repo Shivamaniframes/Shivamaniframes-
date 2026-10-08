@@ -458,4 +458,174 @@ function validateOrder(){
     return false;
   }
 
-  if(!select
+ if(!selectedFrame){
+    markError(frameSelect);
+    showStatus("Please select a frame type / occasion.",true);
+    return false;
+  }
+
+  if(!Number.isInteger(qty) || qty<1 || qty>99){
+    markError(quantityInput);
+    showStatus("Quantity must be between 1 and 99.",true);
+    return false;
+  }
+
+  if(!selectedPayment){
+    markError(paymentSelect);
+    showStatus("Please select a payment method.",true);
+    return false;
+  }
+
+  if(!photo){
+    markError(photoInput);
+    showStatus("Please upload your photo.",true);
+    return false;
+  }
+
+  if(!photo.type.startsWith("image/")){
+    markError(photoInput);
+    showStatus("Please select an image file.",true);
+    return false;
+  }
+
+  if(photo.size>8*1024*1024){
+    markError(photoInput);
+    showStatus("Photo must be smaller than 8 MB.",true);
+    return false;
+  }
+
+  return true;
+}
+
+function loadOrderCount(){
+  const callbackName="ordersCallback_"+Date.now()+"_"+Math.floor(Math.random()*10000);
+
+  window[callbackName]=function(data){
+    try{
+      if(data && data.success){
+        countBox.textContent=Number(data.orderCount||0);
+        localStorage.setItem("shivamaniOrderCount",String(data.orderCount||0));
+      }
+    }finally{
+      delete window[callbackName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+    }
+  };
+
+  const script=document.createElement("script");
+  script.src=
+    GOOGLE_SCRIPT_URL+
+    "?action=orders&callback="+
+    encodeURIComponent(callbackName)+
+    "&_="+Date.now();
+
+  script.onerror=function(){
+    delete window[callbackName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  };
+
+  document.body.appendChild(script);
+}
+
+form.addEventListener("submit",async function(e){
+  e.preventDefault();
+  statusBox.style.display="none";
+  successCard.style.display="none";
+
+  if(!validateOrder()) return;
+
+  const name=document.getElementById("customerName").value.trim();
+  const mobile=document.getElementById("customerPhone").value.replace(/\D/g,"");
+  const address=document.getElementById("customerAddress").value.trim();
+  const selectedFrame=frameSelect.value;
+  const qty=Number(quantityInput.value);
+  const selectedPayment=paymentSelect.value;
+  const message=document.getElementById("message").value.trim();
+  const photoFile=photoInput.files[0];
+
+  const amount=calculateTotal();
+
+  if(amount<=0){
+    showStatus("Please select a valid frame size.",true);
+    return;
+  }
+
+  const orderId=makeOrderId();
+
+  button.disabled=true;
+  button.textContent="⏳ Sending Order...";
+
+  try{
+    showStatus("⏳ Uploading photo and saving your order...",false,true);
+
+    const photoBase64=await fileToBase64(photoFile);
+
+    const order={
+      orderId:orderId,
+      date:new Date().toISOString(),
+      name:name,
+      mobile:mobile,
+      address:address,
+      size:productSelect.value,
+      product:productSelect.value,
+      frame:selectedFrame,
+      quantity:qty,
+      amount:amount,
+      message:message,
+      payment:selectedPayment,
+      photo:photoBase64
+    };
+
+    await sendOrder(order);
+
+    // The Apps Script POST is sent in no-cors mode, so the browser
+    // cannot read its response. Show success after the request completes.
+    successCard.style.display="block";
+    successDetails.innerHTML=
+      "Order ID: <strong>"+orderId+"</strong><br>"+
+      "Total Amount: <strong>₹"+amount.toLocaleString("en-IN")+"</strong><br>"+
+      "Your order has been submitted successfully.";
+
+    showStatus("✅ Order submitted successfully!",false,false);
+
+    // Refresh the real count from Google Sheet.
+    setTimeout(loadOrderCount,1500);
+
+    // Send order details to WhatsApp owner.
+    openWhatsApp(order);
+
+    // Reset form after order has been sent.
+    form.reset();
+    quantityInput.value=1;
+    totalAmount.textContent="0";
+    orderQrBox.style.display="none";
+    qrAmountText.innerHTML=
+      "<strong>Select a frame size to show the exact payment amount in the QR.</strong>";
+    upiQr.src=
+      "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data="+
+      encodeURIComponent("upi://pay?pa=manipressmedia-2@okaxis&pn=Shivamani%20Frames");
+
+    clearErrors();
+
+    // Keep success message visible even after form reset.
+    document.getElementById("order").scrollIntoView({behavior:"smooth",block:"start"});
+
+  }catch(error){
+    console.error(error);
+    showStatus(
+      "❌ Order could not be submitted. Please try again.",
+      true
+    );
+  }finally{
+    button.disabled=false;
+    button.textContent="🛒 Place Order";
+  }
+});
+
+// Initial amount and order count
+calculateTotal();
+loadOrderCount();
+</script>
+
+</body>
+</html>
