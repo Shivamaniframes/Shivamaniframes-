@@ -428,8 +428,7 @@ async function sendOrder(order){
     method:"POST",
     mode:"no-cors",
     headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify(order),
-    keepalive:true
+    body:JSON.stringify(order)
   });
 }
 
@@ -567,6 +566,7 @@ form.addEventListener("submit",async function(e){
 
   button.disabled=true;
   button.textContent="⏳ Sending Order...";
+  showStatus("⏳ Sending your order. Please wait...",false,true);
 
   try{
     showStatus("⏳ Uploading photo and saving your order...",false,true);
